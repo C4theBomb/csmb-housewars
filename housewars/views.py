@@ -1,10 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import CreateView
 
 from .models import Entry
+from .forms import EntryForm
 
 
 class EntryCreateView(CreateView):
     model = Entry
-    fields = ['first_name', 'last_name', 'email',
-              'grade', 'activity1', 'activity2']
+    form_class = EntryForm
+
+    def get_success_url(self):
+        return reverse('housewars:create_entry')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
