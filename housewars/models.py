@@ -67,7 +67,6 @@ class Entry(models.Model):
                 super().clean()
 
     def save(self, *args, **kwargs):
-        print(self.activity1)
         if (self.activity1):
             self.activity1.session1_signups += 1
             self.activity1.save()
