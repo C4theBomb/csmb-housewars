@@ -1,44 +1,43 @@
 {% extends 'base.html' %}
+{% load i18n %}
+
+{% block steps_count %}
+    <legend class="border-bottom mb-4">House Wars Signup: {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</legend>
+{% endblock %}
 
 {% block content %}
-    <div class="content-section">
-        <form method="POST">
-            {% csrf_token %}
-            <fieldset class="form-group" id="name">
-                <legend class="border-bottom mb-4">House Wars Signup</legend>
-            </fieldset>
-            <label for="name" class="form-label">Name:</label>
-            <div class="row mb-3" id="name">
-                <div class="col">
-                    {{ form.first_name }}
-                </div>
-                <div class="col">
-                    {{ form.last_name }}
-                </div>
+    <form method="POST">
+        {% csrf_token %}
+        {{ wizard.management_form }}
+        
+        <label for="name" class="form-label">Name:</label>
+        <div class="row mb-3" id="name">
+            <div class="col">
+                {{ form.first_name }}
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                {{ form.email }}
+            <div class="col">
+                {{ form.last_name }}
             </div>
-            <div class="mb-3">
-                <label for="grade" class="form-label">Grade:</label>
-                {{ form.grade }}
-            </div>
-            <div class="mb-3">
-                <label for="house" class="form-label">House:</label>
-                {{ form.house }}
-            </div>
-            <div class="mb-3">
-                <label for="activity1" class="form-label">Activity 1:</label>
-                {{ form.activity1 }}
-            </div>
-            <div class="mb-3">
-                <label for="activity2" class="form-label">Activity 2:</label>
-                {{ form.activity2 }}
-            </div>
-            <div class="form-group">
-                <input class="btn btn-outline-primary" type="submit" value="Submit" />
-            </div>
-        </form>
-    </div>
-{% endblock content %}
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            {{ form.email }}
+        </div>
+        <div class="mb-3">
+            <label for="grade" class="form-label">Grade:</label>
+            {{ form.grade }}
+        </div>
+        <div class="mb-3">
+            <label for="house" class="form-label">House:</label>
+            {{ form.house }}
+        </div>
+        
+        <div class="form-group">
+            <input class="btn btn-outline-primary" name="wizard_goto_step" type="submit" value="Submit" />
+        </div>
+
+        {% if wizard.steps.prev %}
+            <button class="btn btn-outline-primary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+        {% endif %}
+    </form>
+{% endblock %}

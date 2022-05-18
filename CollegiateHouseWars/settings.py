@@ -29,6 +29,10 @@ SECRET_KEY = env_config.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1'
@@ -43,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'formtools',
 
     'housewars.apps.HousewarsConfig'
 ]

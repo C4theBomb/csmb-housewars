@@ -17,6 +17,10 @@
             <div class="row">
                 <!-- Message Display -->
                 <div class="col-md-8">
+                    <!-- Step count display -->
+                    {% block steps_count %}{% endblock %}
+
+                    <!-- Message display -->
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{  message.tags  }}">
@@ -24,6 +28,7 @@
                             </div>
                         {% endfor %}
                     {% endif %}
+
                     <!-- Main content -->
                     {% block content %}{% endblock %}
                 </div>
