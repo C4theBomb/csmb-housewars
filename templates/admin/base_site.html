@@ -1,0 +1,18 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}
+    {% if subtitle %}
+        {{ subtitle }} |
+    {% endif %}
+        {{ title }} |
+        {{ site_title|default:_('Djangosite admin') }}
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">House Wars Admin Page</a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+{% endblock %}

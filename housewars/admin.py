@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Activity, Entry
 
 
+@admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['name']}),
@@ -13,6 +14,7 @@ class ActivityAdmin(admin.ModelAdmin):
                     'session1_signups', 'session2_signups')
 
 
+@admin.register(Entry)
 class EntryAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Personal Information', {'fields': [
@@ -25,8 +27,3 @@ class EntryAdmin(admin.ModelAdmin):
                     'house', 'activity1', 'activity2')
 
     list_filter = ['house', 'grade', 'activity1', 'activity2']
-
-
-# Register your models here.
-admin.site.register(Activity, ActivityAdmin)
-admin.site.register(Entry, EntryAdmin)
