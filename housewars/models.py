@@ -1,8 +1,7 @@
 from django.db import models
 from django.forms import ValidationError
-from django.db.models import F
 
-# Create your models here.
+from .managers import Session1Activities, Session2Activities
 
 
 class Activity(models.Model):
@@ -16,9 +15,18 @@ class Activity(models.Model):
 
     name = models.CharField(max_length=100)
     quota = models.IntegerField()
-    session1_signups = models.IntegerField(default=0)
-    session2_signups = models.IntegerField(default=0)
     time = models.IntegerField(choices=TimeslotChoices)
+
+    session1 = Session1Activities()
+    session2 = Session2Activities()
+
+    @property
+    def session1_signups(self):
+        return Entry.objects.filter(activity1=self).count()
+
+    @property
+    def session2_signups(self):
+        return Entry.objects.filter(activity2=self).count()
 
     def __str__(self):
         return f"{self.name} ({self.time})"
@@ -53,28 +61,14 @@ class Entry(models.Model):
         Activity, related_name='activity2', on_delete=models.CASCADE, blank=True, null=True)
 
     def clean(self):
-        if self.activity2:
-            if self.activity1.time + self.activity2.time != 60:
-                raise ValidationError(
-                    "Please pick activities adding up to one hour.")
-            else:
-                super().clean()
+        if self.activity2 and self.activity1.time + self.activity2.time != 60:
+            raise ValidationError(
+                "Please pick activities adding up to one hour.")
+        elif not self.activity2 and self.activity1.time != 60:
+            raise ValidationError(
+                "Please pick activities adding up to one hour.")
         else:
-            if self.activity1.time != 60:
-                raise ValidationError(
-                    "Please pick activities adding up to one hour.")
-            else:
-                super().clean()
-
-    def save(self, *args, **kwargs):
-        if (self.activity1):
-            self.activity1.session1_signups += 1
-            self.activity1.save()
-        if (self.activity2):
-            self.activity2.session2_signups += 1
-            self.activity2.save()
-
-        super().save(*args, **kwargs)
+            super().clean()
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
