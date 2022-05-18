@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, EmailInput
+from django.forms import ModelForm, TextInput, EmailInput, Select
 from django.db.models import F
 
 from .models import Entry, Activity
@@ -10,43 +10,43 @@ class EntryForm(ModelForm):
         model = Entry
         fields = '__all__'
 
-    widgets = {
-        'first_name': TextInput(attrs={
-            'class': "form-control",
-            'style': 'max-width: 1px;',
-            'placeholder': 'Name'
-        }),
-        'last_name': TextInput(attrs={
-            'class': "form-control",
-            'style': 'max-width: 300px;',
-            'placeholder': 'Last Name'
-        }),
-        'email': EmailInput(attrs={
-            'class': "form-control",
-            'style': 'max-width: 300px;',
-            'placeholder': 'Email'
-        }),
-        'grade': TextInput(attrs={
-            'class': "form-control",
-            'style': 'max-width: 300px;',
-            'placeholder': 'Grade'
-        }),
-        'house': TextInput(attrs={
-            'class': "form-control",
-            'style': 'max-width: 300px;',
-            'placeholder': 'House'
-        }),
-        'activity1': TextInput(attrs={
-            'class': "form-control",
-            'style': 'max-width: 300px;',
-            'placeholder': 'Activity 1'
-        }),
-        'activity2': TextInput(attrs={
-            'class': "form-control",
-            'style': 'max-width: 300px;',
-            'placeholder': 'Activity 2'
-        }),
-    }
+        widgets = {
+            'first_name': TextInput(attrs={
+                'class': 'form-control',
+                'id': 'first-name',
+                'placeholder': 'First Name'
+            }),
+            'last_name': TextInput(attrs={
+                'class': "form-control",
+                'id': 'last-name',
+                'placeholder': 'Last Name'
+            }),
+            'email': EmailInput(attrs={
+                'class': "form-control",
+                'id': 'email',
+                'placeholder': 'Email'
+            }),
+            'grade': Select(attrs={
+                'class': "form-select",
+                'id': 'grade',
+                'placeholder': 'Grade'
+            }),
+            'house': Select(attrs={
+                'class': "form-select",
+                'id': 'house',
+                'placeholder': 'House'
+            }),
+            'activity1': Select(attrs={
+                'class': "form-select",
+                'id': 'activity1',
+                'placeholder': 'Activity 1'
+            }),
+            'activity2': Select(attrs={
+                'class': "form-select",
+                'id': 'activity2',
+                'placeholder': 'Activity 2'
+            }),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
