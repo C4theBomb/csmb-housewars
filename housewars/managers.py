@@ -1,20 +1,29 @@
 from django.db.models import Manager, F
 
 
-class Session1Activities(Manager):
-    def below_quota(self):
-        signupIDs = [act.id for act in self.get_queryset() if act.quota >
-                     act.session1_signups]
+class EntryManager(Manager):
+    def filterActivity1(self, act):
+        return self.filter(activity1=act)
 
-        return self.filter(id__in=signupIDs).order_by('time', 'name')
+    def filterActivity2(self, act):
+        return self.filter(activity2=act)
 
 
-class Session2Activities(Manager):
+class HawkEntryManager(EntryManager):
     def get_queryset(self):
-        return super().get_queryset().filter(time=30)
+        return super().get_queryset().filter(house='HAWK')
 
-    def below_quota(self):
-        signupIDs = [act.id for act in self.filter(time=30) if act.quota >
-                     act.session2_signups]
 
-        return self.filter(id__in=signupIDs).order_by('name')
+class EagleEntryManager(EntryManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(house='EAGLE')
+
+
+class GreatGreyEntryManager(EntryManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(house='GREATGREY')
+
+
+class SnowyEntryManager(EntryManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(house='SNOWY')
