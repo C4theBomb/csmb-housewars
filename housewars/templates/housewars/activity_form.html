@@ -1,14 +1,33 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block steps_count %}
-    <legend class="border-bottom mb-4">House Wars Signup: {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</legend>
-{% endblock %}
-
 {% block content %}
     <form method="POST">
         {% csrf_token %}
         {{ wizard.management_form }}
+
+        <div class="steps-form">
+            <div class="steps-row setup-panel">
+                <div class="steps-step">
+                    <button name="wizard_goto_step" class="btn btn-secondary btn-circle" type="submit" value="user">1</button>
+                    <p>Student Information</p>
+                </div>
+                <div class="steps-step">
+                    <button name="wizard_goto_step" class="btn btn-primary btn-circle" type="disabled"
+                        value="activity">2</button>
+                    <p>Activity Information</p>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{  message.tags  }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
 
         <div class="mb-3">
             <label for="activity1" class="form-label">Activity 1:</label>
@@ -19,11 +38,9 @@
             {{ form.activity2 }}
         </div>
 
-        <div class="form-group">
-            {% if wizard.steps.prev %}
-                <button class="btn btn-outline-primary" type="submit" value="{{ wizard.steps.prev }}">Previous Step</button>
-            {% endif %}
-            <input class="btn btn-outline-primary" type="submit" value="Submit" />
+        <div class="form-group d-flex justify-content-center">
+            <button name="wizard_goto_step" class="btn btn-outline-primary btn-50" type="submit" value="{{ wizard.steps.prev }}">Previous Step</button>
+            <input class="btn btn-outline-primary btn-50" type="submit" value="Submit" />
         </div>
     </form>
 {% endblock %}

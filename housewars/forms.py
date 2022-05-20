@@ -51,11 +51,14 @@ class ActivityForm(Form):
         activity1 = data.get('activity1')
         activity2 = data.get('activity2')
 
-        if activity2 and activity1.time + activity2.time != 60:
-            raise ValidationError(
-                "Please pick activities adding up to one hour.")
-        elif not activity2 and activity1.time != 60:
-            raise ValidationError(
-                "Please pick activities adding up to one hour.")
+        if activity1:
+            if activity2 and activity1.time + activity2.time != 60:
+                raise ValidationError(
+                    "Please pick activities adding up to one hour.")
+            elif not activity2 and activity1.time != 60:
+                raise ValidationError(
+                    "Please pick activities adding up to one hour.")
+            else:
+                super().clean()
         else:
-            super().clean()
+            raise ValidationError("Please select an activity.")
