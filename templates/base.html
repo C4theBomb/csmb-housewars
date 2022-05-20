@@ -7,28 +7,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href='{% static "main.css" %}' />
+        <link rel="stylesheet" type="text/css" href='{% static "css/main.css" %}' />
 
-        <title>House Wars</title>
+        <title>House Wars Signup</title>
     </head>
     <body>
-        <header class="site-header"></header>
-        <main role="main" class="container">
-            <div class="row">
-                <!-- Message Display -->
-                <div class="col-md-8">
-                    <!-- Step count display -->
-                    {% block steps_count %}{% endblock %}
-
-                    <!-- Message display -->
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{  message.tags  }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-
+        <main role="main" class="container max-height">
+            <div class="row d-flex justify-content-center align-items-center max-height">
+                <div class="card col-md-5 p-4 m-3">
+                    <h1 class="text-center mt-1 mb-4">House Wars Signup</h1>
                     <!-- Main content -->
                     {% block content %}{% endblock %}
                 </div>

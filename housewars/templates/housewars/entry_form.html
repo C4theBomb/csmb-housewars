@@ -1,14 +1,31 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block steps_count %}
-    <legend class="border-bottom mb-4">House Wars Signup: {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</legend>
-{% endblock %}
-
 {% block content %}
     <form method="POST">
         {% csrf_token %}
         {{ wizard.management_form }}
+        <div class="steps-form">
+            <div class="steps-row setup-panel">
+                <div class="steps-step">
+                    <button name="wizard_goto_step" class="btn btn-primary btn-circle" type="disabled" value="user">1</button>
+                    <p>Student Information</p>
+                </div>
+                <div class="steps-step">
+                    <button name="wizard_goto_step" class="btn btn-secondary btn-circle" type="submit"
+                        value="activity">2</button>
+                    <p>Activity Information</p>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{  message.tags  }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
         
         <label for="name" class="form-label">Name:</label>
         <div class="row mb-3" id="name">
@@ -32,12 +49,8 @@
             {{ form.house }}
         </div>
         
-        <div class="form-group">
-            <input class="btn btn-outline-primary" name="wizard_goto_step" type="submit" value="Submit" />
+        <div class="form-group d-flex justify-content-center">        
+            <input class="btn btn-outline-primary btn-100" type="submit" value="Submit" />
         </div>
-
-        {% if wizard.steps.prev %}
-            <button class="btn btn-outline-primary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
-        {% endif %}
     </form>
 {% endblock %}
