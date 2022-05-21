@@ -1,7 +1,7 @@
 from django.forms import Form, CharField, EmailField, ChoiceField, ModelChoiceField, Select, TextInput, EmailInput
 from django.forms import ValidationError
 
-from .models import Entry, Activity
+from .models import Activity, House, UserEntry
 
 
 class UserEntryForm(Form):
@@ -21,12 +21,12 @@ class UserEntryForm(Form):
         'id': 'email',
         'placeholder': 'Email'
     }))
-    grade = ChoiceField(choices=Entry.GradeChoices, widget=Select(attrs={
+    grade = ChoiceField(choices=UserEntry.GradeChoices, widget=Select(attrs={
         'class': "form-select",
         'id': 'grade',
         'placeholder': 'Grade'
     }))
-    house = ChoiceField(choices=Entry.HouseChoices, widget=Select(attrs={
+    house = ModelChoiceField(House.objects.all(), widget=Select(attrs={
         'class': "form-select",
         'id': 'house',
         'placeholder': 'House'

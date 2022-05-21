@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.db.models import Count, Q, F
 from formtools.wizard.views import SessionWizardView
 
-from .models import Activity, Entry
+from .models import Activity, UserEntry
 from .forms import UserEntryForm, ActivityForm
 
 FORMS = [("user", UserEntryForm),
@@ -47,7 +47,7 @@ class EntryCreateView(SessionWizardView):
         return form
 
     def done(self, form_list, **kwargs):
-        Entry.objects.create(**self.get_all_cleaned_data())
+        UserEntry.objects.create(**self.get_all_cleaned_data())
 
         messages.success(self.request, 'Your entry has been submitted')
         return redirect('housewars:create_entry')

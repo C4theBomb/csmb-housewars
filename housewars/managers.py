@@ -1,4 +1,4 @@
-from django.db.models import Manager, F
+from django.db.models import Manager
 
 
 class EntryManager(Manager):
@@ -11,19 +11,19 @@ class EntryManager(Manager):
 
 class HawkEntryManager(EntryManager):
     def get_queryset(self):
-        return super().get_queryset().filter(house='HAWK')
+        return super().get_queryset().filter(house__name='Hawk')
 
 
 class EagleEntryManager(EntryManager):
     def get_queryset(self):
-        return super().get_queryset().filter(house='EAGLE')
+        return super().get_queryset().filter(house__name='Eagle')
 
 
 class GreatGreyEntryManager(EntryManager):
     def get_queryset(self):
-        return super().get_queryset().filter(house='GREATGREY')
+        return super().get_queryset().filter(house__name='Great Grey')
 
 
 class SnowyEntryManager(EntryManager):
     def get_queryset(self):
-        return super().get_queryset().filter(house='SNOWY')
+        return super().get_queryset().filter(house__name='Snowy')

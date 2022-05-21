@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.db.models import Count
-from .models import Activity, Entry
+from django.db.models import Sum
+from .models import Activity, House, UserEntry, PointsEntry
 
 
 @admin.register(Activity)
@@ -16,22 +16,22 @@ class ActivityAdmin(admin.ModelAdmin):
 
     @admin.display(description='Hawk Signups')
     def hawk_signups(self, obj):
-        return str(Entry.hawk.filterActivity1(obj).count()) + " / " + str((Entry.hawk.filterActivity2(obj).count(), "N/A")[obj.time == 60])
+        return str(UserEntry.hawk.filterActivity1(obj).count()) + " / " + str((UserEntry.hawk.filterActivity2(obj).count(), "N/A")[obj.time == 60])
 
     @admin.display(description='Great Grey Signups')
     def great_grey_signups(self, obj):
-        return str(Entry.great_grey.filterActivity1(obj).count()) + " / " + str((Entry.great_grey.filterActivity2(obj).count(), "N/A")[obj.time == 60])
+        return str(UserEntry.great_grey.filterActivity1(obj).count()) + " / " + str((UserEntry.great_grey.filterActivity2(obj).count(), "N/A")[obj.time == 60])
 
     @admin.display(description='Snowy Signups')
     def snowy_signups(self, obj):
-        return str(Entry.snowy.filterActivity1(obj).count()) + " / " + str((Entry.snowy.filterActivity2(obj).count(), "N/A")[obj.time == 60])
+        return str(UserEntry.snowy.filterActivity1(obj).count()) + " / " + str((UserEntry.snowy.filterActivity2(obj).count(), "N/A")[obj.time == 60])
 
     @admin.display(description='Eagle Signups')
     def eagle_signups(self, obj):
-        return str(Entry.eagle.filterActivity1(obj).count()) + " / " + str((Entry.eagle.filterActivity2(obj).count(), "N/A")[obj.time == 60])
+        return str(UserEntry.eagle.filterActivity1(obj).count()) + " / " + str((UserEntry.eagle.filterActivity2(obj).count(), "N/A")[obj.time == 60])
 
 
-@admin.register(Entry)
+@admin.register(UserEntry)
 class EntryAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Personal Information', {'fields': [
@@ -44,3 +44,17 @@ class EntryAdmin(admin.ModelAdmin):
                     'house', 'activity1', 'activity2')
 
     list_filter = ['house', 'grade', 'activity1', 'activity2']
+
+
+@admin.register(House)
+class HouseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'points', 'current_points')
+
+    @admin.display(description='Current HouseWar Points')
+    def current_points(self, obj):
+        return PointsEntry.objects.filter(house__name=obj.name).aggregate(Sum('points')).get('points__sum')
+
+
+@admin.register(PointsEntry)
+class PointsEntryAdmin(admin.ModelAdmin):
+    list_display = ('activity', 'name', 'house', 'points')
