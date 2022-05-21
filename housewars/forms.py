@@ -1,11 +1,11 @@
-from django.forms import Form, CharField, EmailField, ChoiceField, ModelChoiceField, Select, TextInput, EmailInput
-from django.forms import ValidationError
+from django.forms import (CharField, ChoiceField, EmailField, EmailInput, Form,
+                          ModelChoiceField, ModelForm, NumberInput, Select,
+                          Textarea, TextInput, ValidationError)
 
-from .models import Activity, House, UserEntry
+from .models import Activity, House, PointsEntry, UserEntry
 
 
 class UserEntryForm(Form):
-
     first_name = CharField(widget=TextInput(attrs={
         'class': 'form-control',
         'id': 'first-name',
@@ -62,3 +62,37 @@ class ActivityForm(Form):
                 super().clean()
         else:
             raise ValidationError("Please select an activity.")
+
+
+class PointsEntryForm(ModelForm):
+    class Meta:
+        model = PointsEntry
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(attrs={
+                'class': 'form-control',
+                'id': 'first-name',
+                'placeholder': 'Full Name'
+            }),
+            'activity': Select(attrs={
+                'class': "form-select",
+                'id': 'house',
+                'placeholder': 'Activity'
+            }),
+            'house': Select(attrs={
+                'class': "form-select",
+                'id': 'house',
+                'placeholder': 'House'
+            }),
+            'points': NumberInput(attrs={
+                'class': "form-control",
+                'id': 'last-name',
+                'placeholder': 'Number of Points'
+            }),
+            'comment': Textarea(attrs={
+                'class': 'form-control',
+                'id': 'first-name',
+                'placeholder': 'Comments',
+                'style': 'height:10vh;'
+            })
+        }

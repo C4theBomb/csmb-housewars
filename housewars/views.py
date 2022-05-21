@@ -1,11 +1,12 @@
-from django.shortcuts import redirect
 from django.contrib import messages
+from django.db.models import Count, F, Q
+from django.shortcuts import redirect
 from django.urls import reverse
-from django.db.models import Count, Q, F
+from django.views.generic import CreateView
 from formtools.wizard.views import SessionWizardView
 
-from .models import Activity, UserEntry
-from .forms import UserEntryForm, ActivityForm
+from .forms import ActivityForm, PointsEntryForm, UserEntryForm
+from .models import Activity, PointsEntry, UserEntry
 
 FORMS = [("user", UserEntryForm),
          ("activity", ActivityForm)]
@@ -50,7 +51,15 @@ class EntryCreateView(SessionWizardView):
         UserEntry.objects.create(**self.get_all_cleaned_data())
 
         messages.success(self.request, 'Your entry has been submitted')
-        return redirect('housewars:create_entry')
+        return redirect('housewars:signup')
 
     def get_success_url(self):
-        return reverse('housewars:create_entry')
+        return reverse('housewars:signup')
+
+
+class CreatePointsEntry(CreateView):
+    model = PointsEntry
+    form_class = PointsEntryForm
+
+    def get_success_url(self):
+        return reverse('housewars:add_points')
