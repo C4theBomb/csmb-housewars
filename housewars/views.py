@@ -1,12 +1,12 @@
-from django.shortcuts import redirect
 from django.contrib import messages
+from django.db.models import Count, F, Q
+from django.shortcuts import redirect
 from django.urls import reverse
-from django.db.models import Count, Q, F
 from django.views.generic import CreateView
 from formtools.wizard.views import SessionWizardView
 
-from .models import Activity, UserEntry, PointsEntry
-from .forms import UserEntryForm, ActivityForm, PointsEntryForm
+from .forms import ActivityForm, PointsEntryForm, UserEntryForm
+from .models import Activity, PointsEntry, UserEntry
 
 FORMS = [("user", UserEntryForm),
          ("activity", ActivityForm)]

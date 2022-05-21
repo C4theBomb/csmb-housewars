@@ -1,5 +1,7 @@
 from django.db import models
-from .managers import HawkEntryManager, GreatGreyEntryManager, SnowyEntryManager, EagleEntryManager, EntryManager
+
+from .managers import (EagleEntryManager, EntryManager, GreatGreyEntryManager,
+                       HawkEntryManager, SnowyEntryManager)
 
 
 class Activity(models.Model):
@@ -21,7 +23,7 @@ class Activity(models.Model):
 
 class House(models.Model):
     name = models.CharField(max_length=100)
-    points = models.IntegerField()
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.name}"
@@ -66,5 +68,5 @@ class PointsEntry(models.Model):
     name = models.CharField(max_length=100)
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     house = models.ForeignKey(House, on_delete=models.CASCADE)
-    points = models.IntegerField()
+    points = models.IntegerField(default=0)
     comment = models.TextField(blank=False)

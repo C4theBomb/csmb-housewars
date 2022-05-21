@@ -1,11 +1,11 @@
-from django.forms import ModelForm, Form, CharField, EmailField, ChoiceField, ModelChoiceField, Select, TextInput, EmailInput, NumberInput, Textarea
-from django.forms import ValidationError
+from django.forms import (CharField, ChoiceField, EmailField, EmailInput, Form,
+                          ModelChoiceField, ModelForm, NumberInput, Select,
+                          Textarea, TextInput, ValidationError)
 
 from .models import Activity, House, PointsEntry, UserEntry
 
 
 class UserEntryForm(Form):
-
     first_name = CharField(widget=TextInput(attrs={
         'class': 'form-control',
         'id': 'first-name',
@@ -92,6 +92,7 @@ class PointsEntryForm(ModelForm):
             'comment': Textarea(attrs={
                 'class': 'form-control',
                 'id': 'first-name',
-                'placeholder': 'Comments'
+                'placeholder': 'Comments',
+                'style': 'height:10vh;'
             })
         }

@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.db.models import Sum
-from .models import Activity, House, UserEntry, PointsEntry
+from django.db.models.functions import Coalesce
+
+from .models import Activity, House, PointsEntry, UserEntry
 
 
 @admin.register(Activity)
@@ -31,6 +33,19 @@ class ActivityAdmin(admin.ModelAdmin):
         return str(UserEntry.eagle.filterActivity1(obj).count()) + " / " + str((UserEntry.eagle.filterActivity2(obj).count(), "N/A")[obj.time == 60])
 
 
+@admin.register(House)
+class HouseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'points', 'current_points', 'total_points')
+
+    @admin.display(description='Current Housewars Points')
+    def current_points(self, obj):
+        return PointsEntry.objects.filter(house__name=obj.name).aggregate(points__sum=Coalesce(Sum('points'), 0)).get('points__sum')
+
+    @admin.display(description='Total Points')
+    def total_points(self, obj):
+        return self.current_points(obj) + obj.points
+
+
 @admin.register(UserEntry)
 class EntryAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -44,15 +59,6 @@ class EntryAdmin(admin.ModelAdmin):
                     'house', 'activity1', 'activity2')
 
     list_filter = ['house', 'grade', 'activity1', 'activity2']
-
-
-@admin.register(House)
-class HouseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'points', 'current_points')
-
-    @admin.display(description='Current HouseWar Points')
-    def current_points(self, obj):
-        return PointsEntry.objects.filter(house__name=obj.name).aggregate(Sum('points')).get('points__sum')
 
 
 @admin.register(PointsEntry)
