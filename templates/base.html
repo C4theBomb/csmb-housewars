@@ -9,13 +9,17 @@
             integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href='{% static "css/main.css" %}' />
 
-        <title>House Wars Signup</title>
+        {% block title %}
+            <title>House Wars</title>
+        {% endblock %}
     </head>
     <body>
         <main role="main" class="container max-height">
             <div class="row d-flex justify-content-center align-items-center max-height">
                 <div class="card col-md-5 p-4 m-3">
-                    <h1 class="text-center mt-1 mb-4">House Wars Signup</h1>
+                    {% block formtitle %}
+                        <h1 class="text-center mt-1 mb-4">House Wars</h1>
+                    {% endblock %}
                     <!-- Main content -->
                     {% block content %}{% endblock %}
                 </div>

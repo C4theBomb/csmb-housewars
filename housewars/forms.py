@@ -1,7 +1,7 @@
-from django.forms import Form, CharField, EmailField, ChoiceField, ModelChoiceField, Select, TextInput, EmailInput
+from django.forms import ModelForm, Form, CharField, EmailField, ChoiceField, ModelChoiceField, Select, TextInput, EmailInput, NumberInput, Textarea
 from django.forms import ValidationError
 
-from .models import Activity, House, UserEntry
+from .models import Activity, House, PointsEntry, UserEntry
 
 
 class UserEntryForm(Form):
@@ -62,3 +62,36 @@ class ActivityForm(Form):
                 super().clean()
         else:
             raise ValidationError("Please select an activity.")
+
+
+class PointsEntryForm(ModelForm):
+    class Meta:
+        model = PointsEntry
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(attrs={
+                'class': 'form-control',
+                'id': 'first-name',
+                'placeholder': 'Full Name'
+            }),
+            'activity': Select(attrs={
+                'class': "form-select",
+                'id': 'house',
+                'placeholder': 'Activity'
+            }),
+            'house': Select(attrs={
+                'class': "form-select",
+                'id': 'house',
+                'placeholder': 'House'
+            }),
+            'points': NumberInput(attrs={
+                'class': "form-control",
+                'id': 'last-name',
+                'placeholder': 'Number of Points'
+            }),
+            'comment': Textarea(attrs={
+                'class': 'form-control',
+                'id': 'first-name',
+                'placeholder': 'Comments'
+            })
+        }

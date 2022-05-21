@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>House Wars - Add House Points</title>
+{% endblock %}
+
+{% block formtitle %}
+    <h1 class="text-center mt-1 mb-4">Add House Points</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="name" class="name">Name:</label>
+            {{ form.name }}
+        </div>
+        <div class="mb-3">
+            <label for="activity" class="form-label">Activity:</label>
+            {{ form.activity }}
+        </div>
+        <div class="mb-3">
+            <label for="house" class="form-label">House:</label>
+            {{ form.house }}
+        </div>
+        <div class="mb-3">
+            <label for="points" class="form-label">Points:</label>
+            {{ form.points }}
+        </div>
+        <div class="mb-3">
+            <label for="comment" class="form-label">Comments:</label>
+            {{ form.comment }}
+        </div>
+        
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{  message.tags  }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="form-group d-flex justify-content-center">
+            <input class="btn btn-outline-primary btn-100" type="submit" value="Submit" />
+        </div>
+    </form>
+    
+{% endblock %}
