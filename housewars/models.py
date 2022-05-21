@@ -19,9 +19,17 @@ class Activity(models.Model):
         return f"{self.name} ({self.time})"
 
 
-class Entry(models.Model):
+class House(models.Model):
+    name = models.CharField(max_length=100)
+    points = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class UserEntry(models.Model):
     class Meta:
-        verbose_name_plural = "Entries"
+        verbose_name_plural = "User Entries"
 
     objects = EntryManager()
     hawk = HawkEntryManager()
@@ -36,18 +44,12 @@ class Entry(models.Model):
         (12, '12th/Senior'),
     )
 
-    HouseChoices = (
-        ('HAWK', 'Hawk'),
-        ('GREATGREY', 'Great Grey'),
-        ('EAGLE', 'Eagle'),
-        ('SNOWY', 'Snowy')
-    )
-
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     grade = models.IntegerField(choices=GradeChoices)
-    house = models.CharField(choices=HouseChoices, max_length=15)
+    house = models.ForeignKey(
+        House, on_delete=models.CASCADE)
     activity1 = models.ForeignKey(
         Activity, related_name='activity1', on_delete=models.CASCADE)
     activity2 = models.ForeignKey(
@@ -55,3 +57,14 @@ class Entry(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class PointsEntry(models.Model):
+    class Meta:
+        verbose_name_plural = "Point Entries"
+
+    name = models.CharField(max_length=100)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    house = models.ForeignKey(House, on_delete=models.CASCADE)
+    points = models.IntegerField()
+    reason = models.TextField(blank=False)
