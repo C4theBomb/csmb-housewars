@@ -3,3 +3,4 @@
 *.css linguist-detectable=false
 
 static/* linguist-vendored
+static/src/*
