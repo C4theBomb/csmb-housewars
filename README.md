@@ -2,11 +2,10 @@
 
 Welcome to the repository for the Collegiate School of Medicine and Bioscience Housewars site. This repository is open-source, so feel free to download, play around, or contribute. Below is a guide detailing the basic usage of the site and instructions for installation of a local server. Enjoy!
 
-## Table of Contents
 | Table of Contents |
 | ------- |
 | [Usage](#Usage-Instructions) |
-| [Installation Instructions](#Installation-Instructions) |
+| [Installation](#Installation) |
 | [Contributing](#Contributing) |
 
 ## Usage Instructions
@@ -15,7 +14,7 @@ So far there are three primary pages on this site. They include the:
 2. Student signup form - this is accessed at `/`, and contains the form needed for students to signup for housewars activities.
 3. Teacher points form - this is accessed at `/points` and contains the form needed for teachers to add points to houses for activities.
 
-## Installation Instructions
+## Installation
 Welcome to the installation section of the guide. This will walk you through installing the site and spinning up a local development server. 
 
 ### Prerequisites:
@@ -24,7 +23,7 @@ Welcome to the installation section of the guide. This will walk you through ins
 - python-pip - Test if you have it installed by typing `python -m pip --version`. You should see a version number for the current version of pip. There are two ways to download it if you do not have it. You can either run the command `python -m ensurepip --upgrade` if your python installation contains the ensurepip module. Otherwise, you will have to download the [get-pip.py](https://bootstrap.pypa.io/get-pip.py) file from online and run that.
 - virtualenv - You will need to install virtualenv by using the command `python -m virtualenv <virtualenv name> <root project directory>`.
   
-### Installation
+### Instructions
 1. Clone the repository into the desired directory using `git clone https://github.com/C4theBomb/collegiate-housewars.git`
 2. Navigate into the repository using `cd collegiate-housewars`
 3. Run the command `python -m virtualenv <virtual env name>`, then activate the environment using `./<virtual env name>/Scripts/activate`.
