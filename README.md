@@ -6,6 +6,7 @@ Welcome to the repository for the Collegiate School of Medicine and Bioscience H
 | ------- |
 | [Usage](#Usage-Instructions) |
 | [Installation](#Installation) |
+| [Defining .env](#Defining-.env) |
 | [Contributing](#Contributing) |
 
 ## Usage Instructions
@@ -30,6 +31,14 @@ Welcome to the installation section of the guide. This will walk you through ins
 4. Install all the required packages using `pip install -r requirements.txt`.
 5. Run migrations and create a development sqlite3 database using `python manage.py migrate`.
 6. Server should be available to run. You can activate the server using `python manage.py runserver`. The site will be accessible using the [default url](http://localhost:8000).
+
+## Defining .env
+The `.env` file is used to secure data and keep it from entering a cloud, open-acccess environment. Because of this, you will need to define a `.env` file yourself. The parameters that you will need are:
+- SECRET_KEY - This will contain the server key of your django local server. It can be generated using the command `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`.
+- DATABASE_USERNAME - This will be the username of your production database.
+- DATABASE_PASSWORD - This will be the password of your production database.
+- DATABASE_HOST - This will be IPv4/IPv6 address of your production database.
+- DATABASE_NAME - This will be the name of your production database.
 
 ## Contributing
 As an open-source school repository we welcome all contributors willing to help make our website better.
