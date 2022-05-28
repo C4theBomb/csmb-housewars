@@ -44,7 +44,7 @@ The `.env` file is used to secure data and keep it from entering a cloud, open-a
 As an open-source school repository we welcome all contributors willing to help make our website better.
 
 ### Instructions
-1. Follow the [Installation instructions above](#Installation-Instructions) to install the required packages and run the local server. You will want to fork the repository before cloning it.
+1. Follow the [installation instructions above](#Installation) to install the required packages and run the local server. You will want to fork the repository before cloning it.
 2. Commit your new features to your new forked repository.
 3. Create a pull request that details the changes/improvements that you have made.
 4. Wait for @C4theBomb to open discussion/merge your pull request.
