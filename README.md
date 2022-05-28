@@ -6,7 +6,7 @@ Welcome to the repository for the Collegiate School of Medicine and Bioscience H
 | ------- |
 | [Usage](#Usage-Instructions) |
 | [Installation](#Installation) |
-| [Defining .env](#Defining-.env) |
+| [Defining .env](#Defining-env) |
 | [Contributing](#Contributing) |
 
 ## Usage Instructions
