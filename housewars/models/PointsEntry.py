@@ -10,4 +10,8 @@ class PointsEntry(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     house = models.ForeignKey(House, on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
-    comment = models.TextField(blank=False)
+    comment = models.TextField(blank=True, default='')
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
