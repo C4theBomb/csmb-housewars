@@ -1,6 +1,5 @@
 version: '3.8'
 
-name: 'collegiate-housewars'
 services:
   app:
     restart: unless-stopped
