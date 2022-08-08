@@ -48,7 +48,7 @@ class EntryCreateView(SessionWizardView):
         return form
 
     def done(self, form_list, **kwargs):
-        UserEntry.objects.create(**self.get_all_cleaned_data())
+        UserEntry.objects.create(self.get_all_cleaned_data())
 
         messages.success(self.request, 'Your entry has been submitted')
         return redirect('housewars:signup')
