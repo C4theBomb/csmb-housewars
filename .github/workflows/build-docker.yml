@@ -3,7 +3,7 @@ name: Commit docker image
 on:
     push:
         tags:
-          - "v*.*.*"
+            - 'v*.*.*'
     workflow_dispatch:
 
 jobs:
@@ -39,4 +39,4 @@ jobs:
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache
             - name: Image digest
-                  run: echo ${{ steps.docker_build.outputs.digest }}
+              run: echo ${{ steps.docker_build.outputs.digest }}
