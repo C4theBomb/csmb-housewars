@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from ..models import Activity, House
+from ...models import Activity, House
 
 
 class PointsEntryCreateViewTest(TestCase):
