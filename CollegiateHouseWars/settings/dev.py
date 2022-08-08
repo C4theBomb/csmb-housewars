@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from django.contrib.messages import constants
+from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -11,7 +12,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 DOTENV_FILE = BASE_DIR / '.env'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+CONFIG = dotenv_values(DOTENV_FILE)
+SECRET_KEY = CONFIG.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dev',
-        'USER': os.environ.get('DATABASE_USERNAME'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'USER': CONFIG.get('DATABASE_USERNAME'),
+        'PASSWORD': CONFIG.get('DATABASE_PASSWORD'),
         'HOST': 'mysqldb',
         'PORT': '3306'
     }
