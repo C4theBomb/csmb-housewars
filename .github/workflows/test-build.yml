@@ -1,0 +1,27 @@
+name: Test build
+
+on:
+    push:
+        branches: [development, main]
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    test:
+        environment: test
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Write .env to build
+              env:
+                  DOTENV: '${{ secrets.DOTENV }}'
+              run: echo "$DOTENV" >> .env
+            - name: Setup python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: '3.10'
+            - name: Install dependencies
+              run: python -m pip install -r requirements.txt
+            - name: Test build
+              run: python manage.py test
