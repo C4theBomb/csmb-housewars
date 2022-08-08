@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'CollegiateHouseWars.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/var/www/house-wars/db/db.sqlite3',
+        'NAME': '/var/www/housewars/db/db.sqlite3',
     }
 }
 

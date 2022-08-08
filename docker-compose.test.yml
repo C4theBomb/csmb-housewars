@@ -3,7 +3,6 @@ version: '3.8'
 name: 'collegiate-housewars'
 services:
   app:
-    restart: unless-stopped
     build:
       context: .
     ports:
@@ -12,5 +11,7 @@ services:
       - ./:/app
       - housewars-sqlite3:/var/www/housewars/db
     env_file: .env
+    environment:
+      DJANGO_SETTINGS_MODULE: "CollegiateHouseWars.settings.test"
 volumes:
   housewars-sqlite3:
