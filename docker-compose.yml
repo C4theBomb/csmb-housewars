@@ -28,7 +28,7 @@ services:
       - housewars
     environment:
       MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
-      MYSQL_DATABASE: prod
+      MYSQL_DATABASE: dev
 volumes:
   housewars-mysql:
 networks:
