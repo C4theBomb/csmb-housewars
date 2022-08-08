@@ -12,6 +12,6 @@ services:
     env_file: .env
     environment:
       DJANGO_SETTINGS_MODULE: "CollegiateHouseWars.settings.test"
-    command: python manage.py test --verbosity=2
+    command: python manage.py test
 volumes:
   housewars-sqlite3:
