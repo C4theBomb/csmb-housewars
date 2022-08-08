@@ -1,0 +1,16 @@
+version: '3.8'
+
+name: 'collegiate-housewars'
+services:
+  app:
+    restart: unless-stopped
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+      - housewars-sqlite3:/var/www/housewars/db
+    env_file: .env
+volumes:
+  housewars-sqlite3:
