@@ -19,17 +19,15 @@ So far there are three primary pages on this site. They include the:
 Welcome to the installation section of the guide. This will walk you through installing the site and spinning up a local development server. 
 
 ### Prerequisites:
-- git - You can test if you have git installed using the command `git -v`, which should output a version number. If you do not have it installed you can install it [here](https://git-scm.com/downloads).
-- python - You can test if you have python installed by typing `python -v` in the terminal. The resulting output should be a version number. If you do not have python installed, you can download it [here](https://www.python.org/downloads/).
-- python-pip - Test if you have it installed by typing `python -m pip --version`. You should see a version number for the current version of pip. There are two ways to download it if you do not have it. You can either run the command `python -m ensurepip --upgrade` if your python installation contains the ensurepip module. Otherwise, you will have to download the [get-pip.py](https://bootstrap.pypa.io/get-pip.py) file from online and run that.
-- virtualenv - You will need to install virtualenv by using the command `python -m virtualenv <virtualenv name> <root project directory>`.
+- `git` - You can test if you have git installed using the command `git -v`, which should output a version number. If you do not have git installed you can download it [here](https://git-scm.com/downloads).
+- `docker` - You can test if you have docker installed by typing `docker -v` in the terminal. The resulting output should be a version number. If you do not have docker installed, you can download it [here](https://www.docker.com/get-started/).
   
 ### Instructions
-1. Clone the repository into the desired directory using `git clone https://github.com/C4theBomb/collegiate-housewars.git`
-2. Navigate into the repository using `cd collegiate-housewars`
-3. Run the command `python -m virtualenv <virtual env name>`, then activate the environment using `./<virtual env name>/Scripts/activate`.
-4. Install all the required packages using `pip install -r requirements.txt`.
-5. Run migrations and create a development sqlite3 database using `python manage.py migrate`.
+1. Clone the repository into the desired directory using `git clone https://github.com/C4theBomb/collegiate-housewars.git`.
+2. Navigate into the repository using `cd collegiate-housewars`.
+3. Open Docker and run the command `docker compose up` in a shell.
+4. In Docker, open the shell of the `app-1`.
+5. Run migrations and create a development database using `python manage.py migrate`.
 6. Server should be available to run. You can activate the server using `python manage.py runserver`. The site will be accessible using the [default url](http://localhost:8000).
 
 ## Defining .env
@@ -37,8 +35,6 @@ The `.env` file is used to secure data and keep it from entering a cloud, open-a
 - SECRET_KEY - This will contain the server key of your django local server. It can be generated using the command `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`.
 - DATABASE_USERNAME - This will be the username of your production database.
 - DATABASE_PASSWORD - This will be the password of your production database.
-- DATABASE_HOST - This will be IPv4/IPv6 address of your production database.
-- DATABASE_NAME - This will be the name of your production database.
 
 ## Contributing
 As an open-source school repository we welcome all contributors willing to help make our website better.

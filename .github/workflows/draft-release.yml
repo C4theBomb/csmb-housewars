@@ -1,0 +1,18 @@
+name: Create release draft
+
+on:
+    push:
+        branches: [development]
+    workflow_dispatch:
+
+jobs:
+    draft:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Draft release
+              uses: release-drafter/release-drafter@v5
+              id: release-draft
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
