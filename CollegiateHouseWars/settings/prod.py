@@ -14,7 +14,7 @@ DOTENV_FILE = BASE_DIR / '.env'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
