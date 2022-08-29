@@ -16,6 +16,9 @@ services:
       DJANGO_SETTINGS_MODULE: "CollegiateHouseWars.settings.dev"
     depends_on:
       - mysqldb
+    command: >
+      bash -c "python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8000"
   mysqldb:
     restart: unless-stopped
     image: mysql:5.7
@@ -27,6 +30,8 @@ services:
       - housewars
     environment:
       MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_USER: "c4pat"
+      MYSQL_PASSWORD: "asdf"
       MYSQL_DATABASE: dev
 volumes:
   housewars-mysql:
