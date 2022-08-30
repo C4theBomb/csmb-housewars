@@ -11,9 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DOTENV_FILE = BASE_DIR / '.env'
-CONFIG = dotenv_values(DOTENV_FILE)
-SECRET_KEY = CONFIG.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -24,7 +22,8 @@ CSRF_COOKIE_SECURE = False
 
 ALLOWED_HOSTS = [
     '45.79.52.230',
-    'housewars.c4thebomb101.com'
+    'housewars.c4thebomb101.com',
+    'collegiate-housewars.herokuapp.com'
 ]
 
 # Application definition
@@ -50,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'CollegiateHouseWars.urls'
@@ -80,9 +80,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'housewars',
-        'USER': CONFIG.get('DATABASE_USERNAME'),
-        'PASSWORD': CONFIG.get('DATABASE_PASSWORD'),
-        'HOST': 'localhost',
+        'USER': os.environ.get('DATABASE_USERNAME'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
         'PORT': '3306'
     }
 }
@@ -123,7 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = '/var/www/housewars/files/static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static"
