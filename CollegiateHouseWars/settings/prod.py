@@ -24,7 +24,8 @@ CSRF_COOKIE_SECURE = False
 
 ALLOWED_HOSTS = [
     '45.79.52.230',
-    'housewars.c4thebomb101.com'
+    'housewars.c4thebomb101.com',
+    'collegiate-housewars.herokuapp.com'
 ]
 
 # Application definition
