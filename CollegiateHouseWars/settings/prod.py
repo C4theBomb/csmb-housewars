@@ -11,9 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DOTENV_FILE = BASE_DIR / '.env'
-CONFIG = dotenv_values(DOTENV_FILE)
-SECRET_KEY = CONFIG.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -81,9 +79,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'housewars',
-        'USER': CONFIG.get('DATABASE_USERNAME'),
-        'PASSWORD': CONFIG.get('DATABASE_PASSWORD'),
-        'HOST': CONFIG.get('DATABASE_HOST'),
+        'USER': os.environ.get('DATABASE_USERNAME'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
         'PORT': '3306'
     }
 }
