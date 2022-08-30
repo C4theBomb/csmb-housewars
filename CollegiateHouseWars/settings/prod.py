@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'housewars',
         'USER': CONFIG.get('DATABASE_USERNAME'),
         'PASSWORD': CONFIG.get('DATABASE_PASSWORD'),
-        'HOST': 'localhost',
+        'HOST': CONFIG.get('DATABASE_HOST'),
         'PORT': '3306'
     }
 }
