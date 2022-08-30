@@ -15,10 +15,10 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: "CollegiateHouseWars.settings.dev"
     depends_on:
-      - mysqldb
+      mysqldb:
+        condition: service_healthy
     command: >
-      bash -c "python manage.py migrate
-      && python manage.py runserver 0.0.0.0:8000"
+      bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
   mysqldb:
     restart: unless-stopped
     image: mysql:5.7
@@ -33,6 +33,10 @@ services:
       MYSQL_USER: "c4pat"
       MYSQL_PASSWORD: "asdf"
       MYSQL_DATABASE: dev
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 5s
+      retries: 10
 volumes:
   housewars-mysql:
 networks:
