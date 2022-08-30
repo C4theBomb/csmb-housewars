@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 from django.contrib.messages import constants
 from dotenv import dotenv_values
 
