@@ -4,13 +4,12 @@
     {% if subtitle %}
         {{ subtitle }} |
     {% endif %}
-        {{ title }} |
-        {{ site_title|default:_('Djangosite admin') }}
+        {{ title }} | HouseWars Admin
 {% endblock %}
 
 {% block branding %}
 <h1 id="site-name">
-    <a href="{% url 'admin:index' %}">House Wars Admin Page</a>
+    <a href="{% url 'admin:index' %}">House Wars Administration</a>
 </h1>
 {% endblock %}
 
