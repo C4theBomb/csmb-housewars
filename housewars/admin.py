@@ -1,5 +1,7 @@
 from django.contrib import admin
-from django.db.models import Sum
+from django.contrib import messages
+from django.utils.translation import ngettext
+from django.db.models import Sum, F
 from django.db.models.functions import Coalesce
 
 from .models import Activity, House, Teacher, PointsEntry, UserEntry
@@ -36,17 +38,29 @@ class ActivityAdmin(admin.ModelAdmin):
 @admin.register(House)
 class HouseAdmin(admin.ModelAdmin):
     list_display = ('name', 'points', 'current_points', 'total_points')
+    actions = ['finalize_points']
 
     @admin.display(description='Current Housewars Points')
     def current_points(self, obj):
-        return PointsEntry.objects.filter(house__name=obj.name).aggregate(points__sum=Coalesce(Sum('points'), 0)).get('points__sum')
+        return obj.current_points
 
     @admin.display(description='Total Points')
     def total_points(self, obj):
-        return self.current_points(obj) + obj.points
+        return obj.total_points
+
+    @admin.action(description='Finalize selected house points')
+    def finalize_points(self, request, queryset):
+        updated = queryset.update(
+            points=queryset.aggregate(points__sum=Coalesce(Sum('pointsentry__points'), 0)).get('points__sum') + F('points'))
+        PointsEntry.objects.filter(pk__in=queryset).delete()
+        self.message_user(request, ngettext(
+            '%d story was successfully marked as published.',
+            '%d stories were successfully marked as published.',
+            1,
+        ) % 1, messages.SUCCESS)
 
 
-@admin.register(Teacher)
+@ admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Personal Information', {'fields': [
@@ -58,7 +72,7 @@ class TeacherAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'grade', 'activity')
 
 
-@admin.register(UserEntry)
+@ admin.register(UserEntry)
 class EntryAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Personal Information', {'fields': [
