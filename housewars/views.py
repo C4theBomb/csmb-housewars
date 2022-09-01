@@ -37,9 +37,9 @@ class EntryCreateView(SessionWizardView):
         if step == 'activity':
             cd = self.storage.get_step_data('user')
 
-            filtered1 = Activity.objects.annotate(count=Count(
+            filtered1 = Activity.objects.filter(time__isnull=False).annotate(count=Count(
                 'activity1', filter=Q(activity1__house=cd.get('user-house')))).filter(quota__gt=F('count'))
-            filtered2 = Activity.objects.annotate(count=Count(
+            filtered2 = Activity.objects.filter(time__isnull=False).annotate(count=Count(
                 'activity2', filter=Q(activity2__house=cd.get('user-house')))).filter(quota__gt=F('count'), time=30)
 
             form.fields['activity1'].queryset = filtered1
