@@ -12,7 +12,10 @@ class Activity(models.Model):
 
     name = models.CharField(max_length=100)
     quota = models.IntegerField()
-    time = models.IntegerField(choices=TimeslotChoices)
+    time = models.IntegerField(
+        choices=TimeslotChoices, blank=True, null=True, default=None)
+    password = models.CharField(
+        max_length=100, blank=True, null=True, default=None)
 
     def __str__(self):
         return f"{self.name} ({self.time})"

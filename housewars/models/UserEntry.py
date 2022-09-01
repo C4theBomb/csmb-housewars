@@ -1,8 +1,8 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from ..managers import (EagleEntryManager, EntryManager, GreatGreyEntryManager,
                         HawkEntryManager, SnowyEntryManager)
-
 from . import House, Activity
 
 
@@ -25,7 +25,7 @@ class UserEntry(models.Model):
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100, unique=True)
     grade = models.IntegerField(choices=GradeChoices)
     house = models.ForeignKey(
         House, on_delete=models.CASCADE)
@@ -34,8 +34,16 @@ class UserEntry(models.Model):
     activity2 = models.ForeignKey(
         Activity, related_name='activity2', on_delete=models.CASCADE, blank=True, null=True)
 
+    @property
+    def mentor(self):
+        return self.house.teacher.get(grade=self.grade)
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def clean(self):
+        if (self.activity1.time == None or self.activity2.time == None):
+            raise ValidationError('You cannot sign up for a null activity.')
 
     def save(self, *args, **kwargs):
         self.full_clean()

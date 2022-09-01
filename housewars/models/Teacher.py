@@ -3,6 +3,9 @@ from . import House, Activity
 
 
 class Teacher(models.Model):
+    class Meta:
+        unique_together = [['house', 'grade']]
+
     GradeChoices = (
         (9, '9th/Freshman'),
         (10, '10th/Sophomore'),
