@@ -35,6 +35,8 @@ class UserEntryForm(Form):
 
     def clean(self):
         email = self.cleaned_data['email']
+        if ('@slps.org' not in email):
+            raise ValidationError("Please use your school email")
         if UserEntry.objects.filter(email=email).exists():
             raise ValidationError("A signup with this email already exists")
 

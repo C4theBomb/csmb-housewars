@@ -1,9 +1,15 @@
 from django.contrib import admin
 from django.db.models import F, Value
 from django.db.models.functions import Concat
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import cm
+from reportlab.platypus import Table, TableStyle, SimpleDocTemplate
+from reportlab.lib.colors import black
 import csv
+import io
 
 from ..models import UserEntry
 
@@ -41,7 +47,7 @@ class UserEntryAdmin(admin.ModelAdmin):
     list_filter = ['house', 'grade', MentorListFilter, 'activity1',
                    'activity1__teacher', 'activity2', 'activity2__teacher']
 
-    actions = ['export_to_csv']
+    actions = ['export_to_csv', 'export_to_pdf']
 
     @admin.display(description='Activity 1 Teacher')
     def activity1_teacher(self, obj):
@@ -76,14 +82,39 @@ class UserEntryAdmin(admin.ModelAdmin):
             values = []
             for field in field_names:
                 value = getattr(row, field)
-                if callable(value):
-                    try:
-                        value = value() or ''
-                    except:
-                        value = 'Error retrieving value'
                 if value is None:
                     value = ''
                 values.append(value)
             writer.writerow(values)
 
         return response
+
+    @admin.action(description='Export selected to pdf')
+    def export_to_pdf(self, request, queryset):
+        buffer = io.BytesIO()
+        doc = SimpleDocTemplate(buffer, pagesize=letter)
+
+        elements = []
+
+        field_names = [field.name for field in queryset.model._meta.fields]
+        data = []
+        data.append(field_names)
+        for row in queryset:
+            values = []
+            for field in field_names:
+                value = getattr(row, field)
+                if value is None:
+                    value = ''
+                values.append(value)
+            data.append(values)
+
+        table = Table(data, repeatRows=1)
+        table.setStyle(TableStyle(
+            [('INNERGRID', (0, 0), (-1, -1), 0.25, black), ('BOX', (0, 0), (-1, -1), 0.25, black)]))
+        elements.append(table)
+
+        doc.build(elements)
+
+        buffer.seek(0)
+
+        return FileResponse(buffer, as_attachment=True, filename='download.pdf')
