@@ -1,20 +1,12 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from ..managers import (EagleEntryManager, EntryManager, GreatGreyEntryManager,
-                        HawkEntryManager, SnowyEntryManager)
 from . import House, Activity
 
 
 class UserEntry(models.Model):
     class Meta:
         verbose_name_plural = "User Entries"
-
-    objects = EntryManager()
-    hawk = HawkEntryManager()
-    great_grey = GreatGreyEntryManager()
-    snowy = SnowyEntryManager()
-    eagle = EagleEntryManager()
 
     GradeChoices = (
         (9, '9th/Freshman'),
@@ -42,8 +34,16 @@ class UserEntry(models.Model):
         return f"{self.first_name} {self.last_name}"
 
     def clean(self):
-        if (self.activity1.time == None or self.activity2.time == None):
-            raise ValidationError('You cannot sign up for a null activity.')
+        if self.activity2 and self.activity1.time + self.activity2.time != 60:
+            raise ValidationError(
+                "Please pick activities adding up to one hour.")
+        elif not self.activity2 and self.activity1.time != 60:
+            raise ValidationError(
+                "Please pick activities adding up to one hour.")
+        if (self.activity1 and self.activity1.time == None):
+            raise ValidationError('You cannot sign up for a null activity')
+        if (self.activity2 and self.activity2.time == None):
+            raise ValidationError('You cannot sign up for a null activity')
 
     def save(self, *args, **kwargs):
         self.full_clean()
