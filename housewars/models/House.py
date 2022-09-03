@@ -7,13 +7,13 @@ class House(models.Model):
     name = models.CharField(max_length=100)
     points = models.IntegerField(default=0)
 
-    # @property
-    # def current_points(self):
-    #     return self.pointsentry_set.aggregate(points__sum=Coalesce(Sum('points'), 0)).get('points__sum')
+    @property
+    def current_points(self):
+        return self.pointsentry_set.aggregate(sum=Coalesce(Sum('award__points'), 0)).get('sum')
 
-    # @property
-    # def total_points(self):
-    #     return self.current_points + self.points
+    @property
+    def total_points(self):
+        return self.current_points + self.points
 
     def __str__(self):
         return f"{self.name}"
