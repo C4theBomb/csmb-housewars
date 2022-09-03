@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'smart_selects',
     'formtools',
 
     'housewars.apps.HousewarsConfig'
@@ -140,3 +141,5 @@ MESSAGE_TAGS = {constants.DEBUG: 'debug',
                 constants.SUCCESS: 'success',
                 constants.WARNING: 'warning',
                 constants.ERROR: 'danger', }
+
+USE_DJANGO_JQUERY = True

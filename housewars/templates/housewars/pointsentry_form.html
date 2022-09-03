@@ -9,42 +9,22 @@
 {% endblock %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-
-        <div class="mb-3">
-            <label for="name" class="name">Name:</label>
-            {{ form.name }}
-        </div>
-        <div class="mb-3">
-            <label for="activity" class="form-label">Activity:</label>
-            {{ form.activity }}
-        </div>
-        <div class="mb-3">
-            <label for="house" class="form-label">House:</label>
-            {{ form.house }}
-        </div>
-        <div class="mb-3">
-            <label for="points" class="form-label">Points:</label>
-            {{ form.points }}
-        </div>
-        <div class="mb-3">
-            <label for="comment" class="form-label">Comments:</label>
-            {{ form.comment }}
-        </div>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.media.js }}
+    {{ form.as_p }}
         
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{  message.tags  }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{  message.tags  }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
-        <div class="form-group d-flex justify-content-center">
-            <input class="btn btn-outline-primary btn-100" type="submit" value="Submit" />
-        </div>
-    </form>
-    
+    <div class="form-group d-flex justify-content-center">
+        <input class="btn btn-outline-primary btn-100" type="submit" value="Submit" />
+    </div>
+</form>
 {% endblock %}

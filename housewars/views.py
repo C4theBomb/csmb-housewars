@@ -1,12 +1,13 @@
 from django.contrib import messages
-from django.db.models import Count, F, Q
+from django.db.models import Count, F, Q, Subquery, OuterRef
+from django.db.models.functions import Coalesce
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import CreateView
 from formtools.wizard.views import SessionWizardView
 
 from .forms import ActivityForm, PointsEntryForm, UserEntryForm
-from .models import Activity, PointsEntry, UserEntry
+from .models import Activity, Quota, PointsEntry, UserEntry
 
 FORMS = [("user", UserEntryForm),
          ("activity", ActivityForm)]
@@ -37,10 +38,14 @@ class EntryCreateView(SessionWizardView):
         if step == 'activity':
             cd = self.storage.get_step_data('user')
 
-            filtered1 = Activity.objects.annotate(count=Count(
-                'activity1', filter=Q(activity1__house=cd.get('user-house')))).filter(quota__gt=F('count'))
-            filtered2 = Activity.objects.annotate(count=Count(
-                'activity2', filter=Q(activity2__house=cd.get('user-house')))).filter(quota__gt=F('count'), time=30)
+            quota = Quota.objects.filter(
+                house=cd.get('user-house'), activity=OuterRef('id')).values('quota')
+
+            filtered1 = Activity.objects.filter(time__isnull=False).annotate(final_quota=Coalesce(Subquery(quota[:1]), F('default_quota'))).annotate(count=Count(
+                'activity1', filter=Q(activity1__house=cd.get('user-house')))).filter(final_quota__gt=F('count'))
+
+            filtered2 = Activity.objects.filter(time__isnull=False).annotate(final_quota=Coalesce(Subquery(quota[:1]), F('default_quota'))).annotate(count=Count(
+                'activity1', filter=Q(activity1__house=cd.get('user-house')))).filter(final_quota__gt=F('count'), time=30)
 
             form.fields['activity1'].queryset = filtered1
             form.fields['activity2'].queryset = filtered2
@@ -48,7 +53,7 @@ class EntryCreateView(SessionWizardView):
         return form
 
     def done(self, form_list, **kwargs):
-        UserEntry.objects.create(self.get_all_cleaned_data())
+        UserEntry.objects.create(**self.get_all_cleaned_data())
 
         messages.success(self.request, 'Your entry has been submitted')
         return redirect('housewars:signup')
