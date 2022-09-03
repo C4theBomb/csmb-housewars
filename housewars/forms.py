@@ -35,10 +35,13 @@ class UserEntryForm(Form):
 
     def clean(self):
         email = self.cleaned_data['email']
+        # Verify that email domain matches the school's
         if ('@slps.org' not in email):
             raise ValidationError("Please use your school email")
+        # Verify that no other email with that domain exists
         if UserEntry.objects.filter(email=email).exists():
-            raise ValidationError("A signup with this email already exists")
+            raise ValidationError(
+                "A signup with this email already exists, if you want to change your signups, please email cpatino8605@slps.org")
 
 
 class ActivityForm(Form):
@@ -59,6 +62,7 @@ class ActivityForm(Form):
         activity1 = data.get('activity1')
         activity2 = data.get('activity2')
 
+        # Verify that there are 60 minutes of activities selected
         if activity1:
             if activity2 and activity1.time + activity2.time != 60:
                 raise ValidationError(

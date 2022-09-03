@@ -12,6 +12,7 @@ import csv
 import io
 
 from ..models import UserEntry
+from ..utils import unpack_values
 
 
 class MentorListFilter(admin.SimpleListFilter):
@@ -69,23 +70,14 @@ class UserEntryAdmin(admin.ModelAdmin):
 
     @admin.action(description='Export selected to csv')
     def export_to_csv(self, request, queryset):
-        field_names = [field.name for field in queryset.model._meta.fields]
-
         response = HttpResponse(content_type='text/csv', headers={
                                 'Content-Disposition': 'attachment; filename="export.csv"'},)
 
         writer = csv.writer(response, delimiter=";")
-        # Write a first row with header information
-        writer.writerow(field_names)
-        # Write data rows
-        for row in queryset:
-            values = []
-            for field in field_names:
-                value = getattr(row, field)
-                if value is None:
-                    value = ''
-                values.append(value)
-            writer.writerow(values)
+
+        # Unpack dataset and write to file
+        data = unpack_values(queryset)
+        writer.writerows(data)
 
         return response
 
@@ -93,28 +85,19 @@ class UserEntryAdmin(admin.ModelAdmin):
     def export_to_pdf(self, request, queryset):
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=letter)
-
         elements = []
 
-        field_names = [field.name for field in queryset.model._meta.fields]
-        data = []
-        data.append(field_names)
-        for row in queryset:
-            values = []
-            for field in field_names:
-                value = getattr(row, field)
-                if value is None:
-                    value = ''
-                values.append(value)
-            data.append(values)
-
+        # Unpack queryset data and load into table
+        data = unpack_values(queryset)
         table = Table(data, repeatRows=1)
         table.setStyle(TableStyle(
             [('INNERGRID', (0, 0), (-1, -1), 0.25, black), ('BOX', (0, 0), (-1, -1), 0.25, black)]))
+
+        # Load table into PDF file
         elements.append(table)
 
+        # Build document
         doc.build(elements)
-
         buffer.seek(0)
 
         return FileResponse(buffer, as_attachment=True, filename='download.pdf')

@@ -34,16 +34,13 @@ class UserEntry(models.Model):
         return f"{self.first_name} {self.last_name}"
 
     def clean(self):
+        # Check to verify that there are 60 minutes of activities
         if self.activity2 and self.activity1.time + self.activity2.time != 60:
             raise ValidationError(
                 "Please pick activities adding up to one hour.")
         elif not self.activity2 and self.activity1.time != 60:
             raise ValidationError(
                 "Please pick activities adding up to one hour.")
-        if (self.activity1 and self.activity1.time == None):
-            raise ValidationError('You cannot sign up for a null activity')
-        if (self.activity2 and self.activity2.time == None):
-            raise ValidationError('You cannot sign up for a null activity')
 
     def save(self, *args, **kwargs):
         self.full_clean()

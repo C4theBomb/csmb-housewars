@@ -12,12 +12,12 @@ class Activity(models.Model):
 
     name = models.CharField(max_length=100)
     default_quota = models.IntegerField(default=0)
-    time = models.IntegerField(choices=TimeslotChoices, blank=True, null=True)
+    time = models.IntegerField(choices=TimeslotChoices)
     password = models.CharField(
         max_length=100, blank=True, null=True, default=None)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} ({self.time})"
 
     def save(self, *args, **kwargs):
         self.full_clean()
