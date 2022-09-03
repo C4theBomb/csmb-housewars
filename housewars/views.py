@@ -38,15 +38,18 @@ class EntryCreateView(SessionWizardView):
         if step == 'activity':
             cd = self.storage.get_step_data('user')
 
+            # Retrieve custom quotas for house activities
             quota = Quota.objects.filter(
                 house=cd.get('user-house'), activity=OuterRef('id')).values('quota')
 
+            # Set quota to custom quota or default, then set count to the total signups for each activity. Filter where quota is less than house signups.
             filtered1 = Activity.objects.filter(time__isnull=False).annotate(final_quota=Coalesce(Subquery(quota[:1]), F('default_quota'))).annotate(count=Count(
                 'activity1', filter=Q(activity1__house=cd.get('user-house')))).filter(final_quota__gt=F('count'))
 
             filtered2 = Activity.objects.filter(time__isnull=False).annotate(final_quota=Coalesce(Subquery(quota[:1]), F('default_quota'))).annotate(count=Count(
                 'activity1', filter=Q(activity1__house=cd.get('user-house')))).filter(final_quota__gt=F('count'), time=30)
 
+            # Render filtered as choices in activity select step
             form.fields['activity1'].queryset = filtered1
             form.fields['activity2'].queryset = filtered2
 

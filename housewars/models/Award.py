@@ -8,7 +8,7 @@ class Award(models.Model):
     points = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.name} ({self.activity})"
+        return f"{self.name}"
 
     def save(self, *args, **kwargs):
         self.full_clean()
