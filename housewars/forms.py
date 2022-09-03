@@ -1,6 +1,7 @@
 from django.forms import (CharField, ChoiceField, EmailField, EmailInput, Form,
-                          ModelChoiceField, ModelForm, NumberInput, Select,
-                          Textarea, TextInput, ValidationError)
+                          ModelChoiceField, ModelForm, Select,
+                          TextInput, ValidationError)
+from smart_selects.form_fields import ChainedModelChoiceField
 
 from .models import Activity, House, PointsEntry, UserEntry
 
@@ -31,6 +32,11 @@ class UserEntryForm(Form):
         'id': 'house',
         'placeholder': 'House'
     }))
+
+    def clean(self):
+        email = self.cleaned_data['email']
+        if UserEntry.objects.filter(email=email).exists():
+            raise ValidationError("A signup with this email already exists")
 
 
 class ActivityForm(Form):
@@ -69,30 +75,20 @@ class PointsEntryForm(ModelForm):
         model = PointsEntry
         fields = '__all__'
         widgets = {
-            'name': TextInput(attrs={
-                'class': 'form-control',
-                'id': 'first-name',
-                'placeholder': 'Full Name'
-            }),
-            'activity': Select(attrs={
-                'class': "form-select",
-                'id': 'house',
-                'placeholder': 'Activity'
-            }),
             'house': Select(attrs={
                 'class': "form-select",
                 'id': 'house',
                 'placeholder': 'House'
             }),
-            'points': NumberInput(attrs={
-                'class': "form-control",
-                'id': 'last-name',
-                'placeholder': 'Number of Points'
-            }),
-            'comment': Textarea(attrs={
+            'password': TextInput(attrs={
                 'class': 'form-control',
                 'id': 'first-name',
-                'placeholder': 'Comments',
-                'style': 'height:10vh;'
+                'placeholder': 'Password',
+                'type': 'password'
             })
         }
+
+    def __init__(self, *args, **kwargs):
+        super(PointsEntryForm, self).__init__(*args, **kwargs)
+        self.fields['activity'].widget.attrs.update({'class': 'form-select'})
+        self.fields['award'].widget.attrs.update({'class': 'form-select'})

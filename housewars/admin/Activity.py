@@ -1,6 +1,19 @@
-from django.contrib import admin
+from django.http import HttpResponse
+from django.contrib import admin, messages
+from django.utils.translation import ngettext
 
-from ..models import Activity, UserEntry
+from ..utils import get_random_string
+from ..models import Activity, Award, Quota, UserEntry
+
+
+class QuotaInline(admin.TabularInline):
+    model = Quota
+    extra = 0
+
+
+class AwardsInline(admin.TabularInline):
+    model = Award
+    extra = 0
 
 
 @admin.register(Activity)
@@ -8,32 +21,48 @@ class ActivityAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['name']}),
         ('Activity Information', {
-         'fields': ['quota', 'time']}),
+         'fields': ['default_quota', 'time', 'password']}),
     ]
 
-    list_display = ['name', 'time', 'quota', 'teacher', 'password', 'hawk_signups',
-                    'great_grey_signups', 'snowy_signups', 'eagle_signups']
+    list_display = ['name', 'time', 'teacher', 'password',
+                    'default_quota', 'hawk_signups', 'great_grey_signups', 'snowy_signups', 'eagle_signups']
 
-    @admin.display(description='Hawk Signups')
+    inlines = [QuotaInline, AwardsInline]
+
+    actions = ['generate_passwords']
+
+    @admin.display(description='Hawk')
     def hawk_signups(self, obj):
         if (obj.time == None):
             return "- | -"
-        return str(UserEntry.hawk.filterActivity1(obj).count()) + " | " + str((UserEntry.hawk.filterActivity2(obj).count(), "-")[obj.time == 60])
+        return str(UserEntry.objects.filter(house__name='Hawk', activity1=obj).count()) + ' | ' + str((UserEntry.objects.filter(house__name='Hawk', activity2=obj).count(), '-')[obj.time == 60])
 
-    @admin.display(description='Great Grey Signups')
+    @admin.display(description='Great Grey')
     def great_grey_signups(self, obj):
         if (obj.time == None):
             return "- | -"
-        return str(UserEntry.great_grey.filterActivity1(obj).count()) + " | " + str((UserEntry.great_grey.filterActivity2(obj).count(), "-")[obj.time == 60])
+        return str(UserEntry.objects.filter(house__name='Great Grey', activity1=obj).count()) + ' | ' + str((UserEntry.objects.filter(house__name='Great Grey', activity2=obj).count(), '-')[obj.time == 60])
 
-    @admin.display(description='Snowy Signups')
+    @admin.display(description='Snowy')
     def snowy_signups(self, obj):
         if (obj.time == None):
             return "- | -"
-        return str(UserEntry.snowy.filterActivity1(obj).count()) + " | " + str((UserEntry.snowy.filterActivity2(obj).count(), "-")[obj.time == 60])
+        return str(UserEntry.objects.filter(house__name='Snowy', activity1=obj).count()) + ' | ' + str((UserEntry.objects.filter(house__name='Snowy', activity2=obj).count(), '-')[obj.time == 60])
 
-    @admin.display(description='Eagle Signups')
+    @admin.display(description='Eagle')
     def eagle_signups(self, obj):
         if (obj.time == None):
             return "- | -"
-        return str(UserEntry.eagle.filterActivity1(obj).count()) + " | " + str((UserEntry.eagle.filterActivity2(obj).count(), "-")[obj.time == 60])
+        return str(UserEntry.objects.filter(house__name='Eagle', activity1=obj).count()) + ' | ' + str((UserEntry.objects.filter(house__name='Eagle', activity2=obj).count(), '-')[obj.time == 60])
+
+    @admin.action(description='Generate passwords for selected activities')
+    def generate_passwords(self, request, queryset):
+        for item in queryset:
+            item.password = get_random_string(8)
+            item.save()
+
+        self.message_user(request, ngettext(
+            'Generated password for %d activity.',
+            'Generated passwords for %d activities.',
+            queryset.count(),
+        ) % queryset.count(), messages.SUCCESS)
