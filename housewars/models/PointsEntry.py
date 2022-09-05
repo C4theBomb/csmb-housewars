@@ -6,7 +6,6 @@ from . import Award
 class PointsEntry(Model):
     class Meta:
         verbose_name_plural = "Point Entries"
-        unique_together = ('activity', 'award')
 
     activity = ForeignKey(
         'Activity', related_name='Activity', on_delete=CASCADE)
