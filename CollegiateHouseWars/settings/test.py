@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'housewars.apps.HousewarsConfig'
 ]
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.MD5PasswordHasher'
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

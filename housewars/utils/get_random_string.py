@@ -2,18 +2,11 @@ import random
 import string
 
 
-def get_random_string(length):
+def get_random_string(length: int) -> str:
     """Generates a random string of length n
 
-    Parameters
-    ----------
-    length : int
-        The desired length of the returned string
-
-    Returns
-    -------
-    str
-        A random string of length n
+    :param length int: The desired length of the returned string
+    :return: A random string of length n
     """
 
     letters = string.ascii_lowercase

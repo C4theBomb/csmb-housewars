@@ -1,15 +1,12 @@
-def unpack_values(queryset):
+from django.db.models import QuerySet
+from typing import List
+
+
+def unpack_values(queryset: QuerySet) -> List[List]:
     """Unpacks a queryset into a 2D array
 
-    Parameters
-    ----------
-    queryset : int
-        The queryset that will be unpacked
-
-    Returns
-    -------
-    data : [list]
-        A random string of length n
+    :param queryset: The queryset that will be unpacked
+    :returns A table headers, then rows
     """
 
     field_names = [field.name for field in queryset.model._meta.fields]
