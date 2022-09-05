@@ -12,9 +12,7 @@
 <form method="POST">
     {% csrf_token %}
     {{ form.media.js }}
-    {{ form.as_p }}
-        
-
+    
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{{  message.tags  }}">
@@ -22,6 +20,8 @@
             </div>
         {% endfor %}
     {% endif %}
+
+    {{ form.as_p }}
 
     <div class="form-group d-flex justify-content-center">
         <input class="btn btn-outline-primary btn-100" type="submit" value="Submit" />
