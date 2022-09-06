@@ -1,22 +1,24 @@
 from django.urls import reverse
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-from selenium import webdriver
+from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.expected_conditions import visibility_of
-
-from time import sleep
 
 from housewars.models import House, Activity, Award
 
 
 class UserEntryCreatePageTest(StaticLiveServerTestCase):
     def setUp(self):
-        self.browser = webdriver.Chrome(ChromeDriverManager().install())
+        options = Options()
+        options.add_argument('--headless')
+
+        self.browser = Chrome(
+            ChromeDriverManager().install(), chrome_options=options)
         self.url = self.live_server_url + reverse('housewars:add_points')
 
         self.house = House.objects.create(name='Hawk')
