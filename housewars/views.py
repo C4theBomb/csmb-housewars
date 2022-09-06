@@ -22,16 +22,6 @@ class EntryCreateView(SessionWizardView):
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
 
-    def post(self, *args, **kwargs):
-        form = self.get_form(data=self.request.POST, files=self.request.FILES)
-
-        if not form.is_valid():
-            if (form.errors.as_data().get('__all__')):
-                for error in form.errors.as_data().get('__all__'):
-                    messages.error(self.request, error.messages[0])
-
-        return super().post(*args, **kwargs)
-
     def get_form(self, step=None, data=None, files=None):
         form = super().get_form(step, data, files)
 
@@ -43,11 +33,11 @@ class EntryCreateView(SessionWizardView):
                 house=cd.get('user-house'), activity=OuterRef('id')).values('quota')
 
             # Set quota to custom quota or default, then set count to the total signups for each activity. Filter where quota is less than house signups.
-            filtered1 = Activity.objects.filter(time__isnull=False).annotate(final_quota=Coalesce(Subquery(quota[:1]), F('default_quota'))).annotate(count=Count(
+            filtered1 = Activity.objects.annotate(final_quota=Coalesce(Subquery(quota[:1]), F('default_quota'))).annotate(count=Count(
                 'activity1', filter=Q(activity1__house=cd.get('user-house')))).filter(final_quota__gt=F('count'))
 
-            filtered2 = Activity.objects.filter(time__isnull=False).annotate(final_quota=Coalesce(Subquery(quota[:1]), F('default_quota'))).annotate(count=Count(
-                'activity1', filter=Q(activity1__house=cd.get('user-house')))).filter(final_quota__gt=F('count'), time=30)
+            filtered2 = Activity.objects.annotate(final_quota=Coalesce(Subquery(quota[:1]), F('default_quota'))).annotate(count=Count(
+                'activity1', filter=Q(activity2__house=cd.get('user-house')))).filter(final_quota__gt=F('count'), time=30)
 
             # Render filtered as choices in activity select step
             form.fields['activity1'].queryset = filtered1
@@ -65,9 +55,14 @@ class EntryCreateView(SessionWizardView):
         return reverse('housewars:signup')
 
 
-class CreatePointsEntry(CreateView):
+class PointsEntryCreateView(CreateView):
     model = PointsEntry
     form_class = PointsEntryForm
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Your points entry has been submitted.')
+
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('housewars:add_points')
