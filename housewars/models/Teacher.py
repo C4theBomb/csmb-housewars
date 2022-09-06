@@ -17,7 +17,8 @@ class Teacher(models.Model):
     last_name = models.CharField(max_length=100)
     house = models.ForeignKey(
         House, related_name='teacher', default=None, blank=True, null=True, on_delete=models.SET_NULL)
-    grade = models.IntegerField(choices=GradeChoices)
+    grade = models.IntegerField(
+        choices=GradeChoices, default=None, blank=True, null=True)
     activity = models.OneToOneField(
         Activity, related_name='teacher', default=None, blank=True, null=True, on_delete=models.SET_NULL)
 

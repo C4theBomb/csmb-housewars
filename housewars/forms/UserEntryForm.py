@@ -36,7 +36,7 @@ class UserEntryForm(Form):
 
         # Verify that email domain matches
         if ('@slps.org' not in email):
-            raise ValidationError("Please use your school email")
+            raise ValidationError("Please use your school email.")
         # Verify that the email is unique
         if UserEntry.objects.filter(email=email).exists():
             raise ValidationError(
