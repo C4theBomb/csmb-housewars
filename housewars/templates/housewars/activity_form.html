@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block formtitle %}
-    <h1 class="text-center mt-1 mb-4">Signup</h1>
+    <h1 id='header' class="text-center mt-1 mb-4">Signup</h1>
 {% endblock %}
 
 {% block content %}
@@ -28,15 +28,6 @@
             </div>
         </div>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{  message.tags  }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-
-
         <div class="mb-3">
             <label for="activity1" class="form-label">Activity 1:</label>
             {{ form.activity1 }}
@@ -48,7 +39,7 @@
 
         <div class="form-group d-flex justify-content-center">
             <button name="wizard_goto_step" class="btn btn-outline-primary btn-50" type="submit" value="{{ wizard.steps.prev }}">Previous Step</button>
-            <input class="btn btn-outline-primary btn-50" type="submit" value="Submit" />
+            <input id='submit' class="btn btn-outline-primary btn-50" type="submit" value="Submit" />
         </div>
     </form>
 {% endblock %}
