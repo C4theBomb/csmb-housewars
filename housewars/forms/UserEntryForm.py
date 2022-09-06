@@ -34,10 +34,12 @@ class UserEntryForm(Form):
     def clean_email(self):
         email = self.cleaned_data.get('email')
 
-        # Verify that email domain matches the school's
+        # Verify that email domain matches
         if ('@slps.org' not in email):
             raise ValidationError("Please use your school email")
-        # Verify that no other email with that domain exists
+        # Verify that the email is unique
         if UserEntry.objects.filter(email=email).exists():
             raise ValidationError(
                 "A signup with this email already exists, if you want to change your signups, please email cpatino8605@slps.org.")
+
+        return email
