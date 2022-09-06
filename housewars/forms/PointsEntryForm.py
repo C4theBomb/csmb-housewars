@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Select, TextInput
-from housewars.models import Activity, House, PointsEntry, UserEntry
+from housewars.models import PointsEntry
 
 
 class PointsEntryForm(ModelForm):
