@@ -16,7 +16,7 @@ class PointsEntryCreateViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'housewars/pointsentry_form.html')
+        self.assertTemplateUsed(response, 'housewars/general_form.html')
 
     def test_POST(self):
         response = self.client.post(self.url, {

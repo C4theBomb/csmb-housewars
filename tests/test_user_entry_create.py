@@ -40,8 +40,6 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         WebDriverWait(self.browser, timeout=5).until(
             visibility_of(self.browser.find_element(By.ID, 'header')))
 
-        self.assertEqual(self.browser.title, 'House Wars - Signup')
-
         self.browser.find_element(By.ID, 'first-name').send_keys('Test')
         self.browser.find_element(By.ID, 'last-name').send_keys('User')
         self.browser.find_element(
