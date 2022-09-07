@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.views.generic import CreateView
 from formtools.wizard.views import SessionWizardView
 
-from .forms import ActivityForm, PointsEntryForm, UserEntryForm
-from .models import Activity, Quota, PointsEntry, UserEntry
+from housewars.forms import ActivityForm, PointsEntryForm, UserEntryForm, FacilitatorForm
+from housewars.models import Activity, Quota, PointsEntry, UserEntry, Facilitator
 
 FORMS = [("user", UserEntryForm),
          ("activity", ActivityForm)]
@@ -84,10 +84,17 @@ class EntryCreateView(SessionWizardView):
     def get_success_url(self):
         return reverse('housewars:signup')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Signup'
+        context['formtitle'] = 'House Wars Signup'
+        return context
+
 
 class PointsEntryCreateView(CreateView):
     model = PointsEntry
     form_class = PointsEntryForm
+    template_name = 'housewars/general_form.html'
 
     def form_valid(self, form):
         messages.success(self.request, 'Your points entry has been submitted.')
@@ -96,3 +103,30 @@ class PointsEntryCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('housewars:add_points')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Add Points'
+        context['formtitle'] = 'Add House Points'
+        return context
+
+
+class FacilitatorCreateView(CreateView):
+    model = Facilitator
+    form_class = FacilitatorForm
+    template_name = 'housewars/general_form.html'
+
+    def form_valid(self, form):
+        messages.success(
+            self.request, 'Your facilitator signup has been submitted.')
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('housewars:add_points')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Facilitator'
+        context['formtitle'] = 'Facilitator Signup'
+        return context
