@@ -19,12 +19,12 @@ class AwardsInline(admin.TabularInline):
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['name']}),
+        (None, {'fields': ['name', 'room_number']}),
         ('Activity Information', {
          'fields': ['default_quota', 'time', 'password']}),
     ]
 
-    list_display = ['name', 'time', 'teacher', 'password',
+    list_display = ['name', 'time', 'room_number', 'teacher', 'password',
                     'default_quota', 'hawk_signups', 'great_grey_signups', 'snowy_signups', 'eagle_signups']
 
     inlines = [QuotaInline, AwardsInline]
