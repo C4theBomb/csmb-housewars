@@ -51,16 +51,15 @@ class EntryCreateView(SessionWizardView):
 
         activity1 = cleaned_data['activity1']
         activity1_room = activity1.room_number
-        activity1_teacher = activity1.teacher.last_name
         activity2 = cleaned_data['activity2']
         activity2_room = activity2.room_number
-        activity2_teacher = activity1.teacher.last_name
 
         # Build the response string.
         a1_string = f'You are in {activity1}'
         if (activity1_room != None):
             a1_string += f' in Room {activity1_room}'
-        if (activity1_teacher != None):
+        if (hasattr(activity1, 'teacher')):
+            activity1_teacher = activity1.teacher
             a1_string += f' with {activity1_teacher}.'
         else:
             a1_string += '.'
@@ -70,7 +69,8 @@ class EntryCreateView(SessionWizardView):
             a2_string = f'You are in {activity2}'
             if (activity2_room != None):
                 a2_string += f' in Room {activity2_room}'
-            if (activity2_teacher != None):
+            if (hasattr(activity2, 'teacher')):
+                activity2_teacher = activity2.teacher.last_name
                 a2_string += f' with {activity2_teacher}.'
             else:
                 a2_string += '.'
