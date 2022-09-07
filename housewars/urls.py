@@ -21,5 +21,6 @@ from . import views
 app_name = 'housewars'
 urlpatterns = [
     path('', views.EntryCreateView.as_view(), name='signup'),
-    path('points/', views.PointsEntryCreateView.as_view(), name='add_points')
+    path('points/', views.PointsEntryCreateView.as_view(), name='add_points'),
+    path('facilitator/', views.FacilitatorCreateView.as_view(), name='facilitator')
 ]
