@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}
-    <title>House Wars - Signup</title>
-{% endblock %}
-
-{% block formtitle %}
-    <h1 id='header' class="text-center mt-1 mb-4">Signup</h1>
-{% endblock %}
-
 {% block content %}
     <form method="POST">
         {% csrf_token %}
