@@ -1,6 +1,6 @@
-from django.forms import ModelForm, ModelChoiceField, Select, CharField, TextInput
+from django.forms import ModelForm, Select, TextInput
 
-from housewars.models import Activity, Facilitator
+from housewars.models import Facilitator
 
 
 class FacilitatorForm(ModelForm):
@@ -15,7 +15,7 @@ class FacilitatorForm(ModelForm):
             }),
             'last_name': TextInput(attrs={
                 'class': 'form-control',
-                'id': 'first-name',
+                'id': 'last-name',
                 'placeholder': 'Last Name',
             }),
             'activity': Select(attrs={

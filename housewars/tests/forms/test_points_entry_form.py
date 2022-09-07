@@ -4,7 +4,7 @@ from housewars.forms import PointsEntryForm
 from housewars.models import Activity, House, Award
 
 
-class ActivityFormTest(TestCase):
+class PointsEntryFormTest(TestCase):
     def setUp(self):
         self.house = House.objects.create(name='Hawk')
         self.activity = Activity.objects.create(name='Dodgeball', time=30)
