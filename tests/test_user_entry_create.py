@@ -15,6 +15,7 @@ from housewars.models import House, Activity, UserEntry
 
 class UserEntryCreatePageTest(StaticLiveServerTestCase):
     def setUp(self):
+        # Headless chrome driver test setup
         options = Options()
         options.add_argument('--headless')
 
@@ -22,6 +23,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
             ChromeDriverManager().install(), chrome_options=options)
         self.url = self.live_server_url + reverse('housewars:signup')
 
+        # Initial data setup
         self.house = House.objects.create(name='Hawk')
         self.activity30 = Activity.objects.create(
             name='Dodgeball', time=30, default_quota=5)
@@ -40,6 +42,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         WebDriverWait(self.browser, timeout=5).until(
             visibility_of(self.browser.find_element(By.ID, 'header')))
 
+        # Fill in form with valid inputs
         self.browser.find_element(By.ID, 'first-name').send_keys('Test')
         self.browser.find_element(By.ID, 'last-name').send_keys('User')
         self.browser.find_element(
@@ -60,10 +63,17 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
 
         self.browser.find_element(By.ID, 'submit').click()
 
+        # Verify signup is successful
         success_text = self.browser.find_element(
             By.CSS_SELECTOR, 'div.alert.alert-success').text
 
         self.assertEquals(success_text, 'Your signup has been submitted.')
+
+        # Verify that activity detail cards are present
+        activity_confirm = self.browser.find_elements(
+            By.CSS_SELECTOR, 'div.alert.alert-success')
+
+        self.assertEquals(len(activity_confirm), 3)
 
     def test_user_invalid_email(self):
         self.browser.get(self.live_server_url)
