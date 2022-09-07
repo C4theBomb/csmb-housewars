@@ -48,6 +48,8 @@ class UserEntryAdmin(admin.ModelAdmin):
     list_filter = ['house', 'grade', MentorListFilter, 'activity1',
                    'activity1__teacher', 'activity2', 'activity2__teacher']
 
+    search_fields = ['first_name', 'last_name']
+
     actions = ['export_to_csv', 'export_to_pdf']
 
     @admin.display(description='Activity 1 Teacher')
@@ -70,25 +72,45 @@ class UserEntryAdmin(admin.ModelAdmin):
 
     @admin.action(description='Export selected to csv')
     def export_to_csv(self, request, queryset):
+        # Augment the queryset with extra data
+        queryset = queryset
+
+        # Initialize csv object writers
         response = HttpResponse(content_type='text/csv', headers={
                                 'Content-Disposition': 'attachment; filename="export.csv"'},)
-
         writer = csv.writer(response, delimiter=";")
 
-        # Unpack dataset and write to file
-        data = unpack_values(queryset)
+        # Select the headers that are to be unpacked
+        headers = ['first_name', 'last_name', 'email',
+                   'grade', 'house', 'activity1', 'activity2']
+
+        # Unpack queryset and write to file
+        data = unpack_values(queryset, headers)
+
+        # Write data into tables
         writer.writerows(data)
 
         return response
 
     @admin.action(description='Export selected to pdf')
     def export_to_pdf(self, request, queryset):
+        # Augment the querset with extra data
+        queryset = queryset.annotate(
+            a1_room=F('activity1__room_number')).annotate(a2_room=F('activity1__room_number'))
+
+        # Initialize pdf object
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=letter)
         elements = []
 
-        # Unpack queryset data and load into table
-        data = unpack_values(queryset)
+        # Select headers that are to be unpacked
+        headers = ['first_name', 'last_name', 'grade', 'house',
+                   'activity1', 'a1_room', 'activity2', 'a2_room']
+
+        # Unpack queryset data
+        data = unpack_values(queryset, headers)
+
+        # Load data into table and set styles
         table = Table(data, repeatRows=1)
         table.setStyle(TableStyle(
             [('INNERGRID', (0, 0), (-1, -1), 0.25, black), ('BOX', (0, 0), (-1, -1), 0.25, black)]))
