@@ -13,13 +13,16 @@ class UnpackValuesTest(TestCase):
 
     def test_valid_row_headers(self):
         """Correctly unpacks the headers into the first index"""
-        values = unpack_values(self.test_queryset)
+        headers = [field.name for field in House._meta.fields]
+
+        values = unpack_values(self.test_queryset, headers)
         self.assertEqual(
-            values[0], [field.name for field in House._meta.fields])
+            values[0], headers)
 
     def test_complete_values(self):
         """Maintains the complete queryset and returns it"""
-        values = unpack_values(self.test_queryset)
+        headers = [field.name for field in House._meta.fields]
+        values = unpack_values(self.test_queryset, headers)
         queryset = list(self.test_queryset.values_list())
         for row in queryset:
             self.assertIn(list(row), values)

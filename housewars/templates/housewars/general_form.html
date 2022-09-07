@@ -1,13 +1,5 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    <title>House Wars - Add House Points</title>
-{% endblock %}
-
-{% block formtitle %}
-    <h1 id='header' class="text-center mt-1 mb-4">Add House Points</h1>
-{% endblock %}
-
 {% block content %}
 <form method="POST">
     {% csrf_token %}

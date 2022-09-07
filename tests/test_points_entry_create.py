@@ -14,13 +14,14 @@ from housewars.models import House, Activity, Award
 
 class UserEntryCreatePageTest(StaticLiveServerTestCase):
     def setUp(self):
+        # Headless chrome driver test setup
         options = Options()
         options.add_argument('--headless')
-
         self.browser = Chrome(
             ChromeDriverManager().install(), chrome_options=options)
         self.url = self.live_server_url + reverse('housewars:add_points')
 
+        # Initial data setup
         self.house = House.objects.create(name='Hawk')
         self.activity = Activity.objects.create(name='Dodgeball', time=30)
         self.award = Award.objects.create(name='1st', activity=self.activity)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ..models import House
+from housewars.models import House
 
 
 @admin.register(House)

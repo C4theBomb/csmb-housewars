@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.contrib import admin, messages
 from django.utils.translation import ngettext
 
-from ..utils import get_random_string
-from ..models import Activity, Award, Quota, UserEntry
+from housewars.utils import get_random_string
+from housewars.models import Activity, Award, Quota, UserEntry
 
 
 class QuotaInline(admin.TabularInline):
@@ -19,12 +19,12 @@ class AwardsInline(admin.TabularInline):
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['name']}),
+        (None, {'fields': ['name', 'room_number']}),
         ('Activity Information', {
          'fields': ['default_quota', 'time', 'password']}),
     ]
 
-    list_display = ['name', 'time', 'teacher', 'password',
+    list_display = ['name', 'time', 'room_number', 'teacher', 'password',
                     'default_quota', 'hawk_signups', 'great_grey_signups', 'snowy_signups', 'eagle_signups']
 
     inlines = [QuotaInline, AwardsInline]
