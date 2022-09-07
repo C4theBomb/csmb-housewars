@@ -11,8 +11,8 @@ from reportlab.lib.colors import black
 import csv
 import io
 
-from ..models import UserEntry
-from ..utils import unpack_values
+from housewars.models import UserEntry
+from housewars.utils import unpack_values
 
 
 class MentorListFilter(admin.SimpleListFilter):

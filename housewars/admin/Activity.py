@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.contrib import admin, messages
 from django.utils.translation import ngettext
 
-from ..utils import get_random_string
-from ..models import Activity, Award, Quota, UserEntry
+from housewars.utils import get_random_string
+from housewars.models import Activity, Award, Quota, UserEntry
 
 
 class QuotaInline(admin.TabularInline):

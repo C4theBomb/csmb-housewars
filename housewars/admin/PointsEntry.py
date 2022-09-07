@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db.models import F
 
-from ..models import PointsEntry
+from housewars.models import PointsEntry
 
 
 class ValidatedPasswordFilter(admin.SimpleListFilter):
