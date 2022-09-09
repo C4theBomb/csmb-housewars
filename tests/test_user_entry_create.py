@@ -18,9 +18,10 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         # Headless chrome driver test setup
         options = Options()
         options.add_argument('--headless')
-
+        options.add_argument("--window-size=1280,800")
         self.browser = Chrome(
             ChromeDriverManager().install(), chrome_options=options)
+        self.browser.maximize_window()
         self.url = self.live_server_url + reverse('housewars:signup')
 
         # Initial data setup
