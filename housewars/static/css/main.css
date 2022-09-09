@@ -15,10 +15,22 @@ html, body {
     height: 100%;
 }
 
+#banner {
+    /* background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp-RkNnMsGagfx0oV3SsHNONyIVlF3tfl9EiXhACZe&s");
+    background-repeat: no-repeat;
+    background-size: 100% 100%; */
+    background-color: #00f;
+}
+
+#step-counter {
+    height: 10%
+}
+
 .steps-form {
     display: table;
     width: 100%;
     position: relative;
+    margin-bottom: 1rem;
 }
 
 .steps-form .steps-row {
