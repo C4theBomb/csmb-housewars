@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 DOTENV_FILE = BASE_DIR / '.env'
 CONFIG = dotenv_values(DOTENV_FILE)
-SECRET_KEY = CONFIG.get('SECRET_KEY')
+SECRET_KEY = "*9r50c74r58p#*tnfpadsw*cp&$(^sj585w1u@!y9*eowmwl1*"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
