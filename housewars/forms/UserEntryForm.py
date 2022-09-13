@@ -8,12 +8,12 @@ class UserEntryForm(Form):
     first_name = CharField(widget=TextInput(attrs={
         'class': 'form-control',
         'id': 'first-name',
-        'placeholder': 'First Name'
+        'placeholder': 'First'
     }))
     last_name = CharField(widget=TextInput(attrs={
         'class': "form-control",
         'id': 'last-name',
-        'placeholder': 'Last Name'
+        'placeholder': 'Last'
     }))
     email = EmailField(widget=EmailInput(attrs={
         'class': "form-control",

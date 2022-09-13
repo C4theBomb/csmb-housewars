@@ -16,9 +16,6 @@ html, body {
 }
 
 #banner {
-    /* background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp-RkNnMsGagfx0oV3SsHNONyIVlF3tfl9EiXhACZe&s");
-    background-repeat: no-repeat;
-    background-size: 100% 100%; */
     background-color: #00f;
 }
 
@@ -71,4 +68,10 @@ html, body {
     line-height: 1.428571429;
     border-radius: 15px;
     margin-top: 0;
+}
+
+@media only screen and (max-width: 992px) {
+    #banner {
+        display: none;
+    }
 }
