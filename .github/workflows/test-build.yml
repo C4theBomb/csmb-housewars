@@ -8,15 +8,10 @@ on:
 
 jobs:
   test:
-    environment: test
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: Write .env to build
-        env:
-          DOTENV: '${{ secrets.DOTENV }}'
-        run: echo "$DOTENV" >> .env
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
