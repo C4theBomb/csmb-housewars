@@ -1,30 +1,12 @@
 from pathlib import Path
-import os
 from django.contrib.messages import constants
-from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-DOTENV_FILE = BASE_DIR / '.env'
-CONFIG = dotenv_values(DOTENV_FILE)
-SECRET_KEY = "ut20oy+5(!p)lqg8p+986ua3f0b*h=q0o2*swea^pv74*#&w5z"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
-
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-]
 
 # Application definition
 
@@ -40,10 +22,6 @@ INSTALLED_APPS = [
     'formtools',
 
     'housewars.apps.HousewarsConfig'
-]
-
-PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.MD5PasswordHasher'
 ]
 
 MIDDLEWARE = [
@@ -76,18 +54,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CollegiateHouseWars.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -106,7 +72,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -118,17 +83,15 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = '/var/www/collegiate-housewars/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
