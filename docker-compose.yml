@@ -11,9 +11,8 @@ services:
       - ./:/app
     networks:
       - housewars
-    env_file: .env
     environment:
-      DJANGO_SETTINGS_MODULE: "CollegiateHouseWars.settings.dev"
+      DJANGO_SETTINGS_MODULE: "CollegiateHouseWars.settings.docker"
     depends_on:
       mysqldb:
         condition: service_healthy
@@ -29,7 +28,7 @@ services:
     networks:
       - housewars
     environment:
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "passw0rd"
       MYSQL_DATABASE: dev
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]

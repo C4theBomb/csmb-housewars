@@ -15,10 +15,19 @@ html, body {
     height: 100%;
 }
 
+#banner {
+    background-color: #fff;
+}
+
+#step-counter {
+    height: 10%
+}
+
 .steps-form {
     display: table;
     width: 100%;
     position: relative;
+    margin-bottom: 1rem;
 }
 
 .steps-form .steps-row {
@@ -59,4 +68,10 @@ html, body {
     line-height: 1.428571429;
     border-radius: 15px;
     margin-top: 0;
+}
+
+@media only screen and (max-width: 992px) {
+    #banner {
+        display: none;
+    }
 }

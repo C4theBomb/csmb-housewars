@@ -17,7 +17,8 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         # Headless chrome driver test setup
         options = Options()
         options.add_argument('--headless')
-
+        options.add_argument('--start-maximized')
+        options.add_argument('--disable-gpu')
         self.browser = Chrome(
             ChromeDriverManager().install(), chrome_options=options)
         self.url = self.live_server_url + reverse('housewars:facilitator')
