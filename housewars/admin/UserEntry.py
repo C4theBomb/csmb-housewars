@@ -72,19 +72,20 @@ class UserEntryAdmin(admin.ModelAdmin):
 
     @admin.action(description='Export selected to csv')
     def export_to_csv(self, request, queryset):
-        # Augment the queryset with extra data
-        queryset = queryset
+        # Augment the querset with extra data
+        queryset = queryset.annotate(
+            a1_room=F('activity1__room_number')).annotate(a2_room=F('activity1__room_number'))
 
         # Initialize csv object writers
         response = HttpResponse(content_type='text/csv', headers={
                                 'Content-Disposition': 'attachment; filename="export.csv"'},)
         writer = csv.writer(response, delimiter=";")
 
-        # Select the headers that are to be unpacked
-        headers = ['first_name', 'last_name', 'email',
-                   'grade', 'house', 'activity1', 'activity2']
+        # Select headers that are to be unpacked
+        headers = ['first_name', 'last_name', 'grade', 'house',
+                   'activity1', 'a1_room', 'activity2', 'a2_room']
 
-        # Unpack queryset and write to file
+        # Unpack queryset data
         data = unpack_values(queryset, headers)
 
         # Write data into tables
