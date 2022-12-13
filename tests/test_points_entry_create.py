@@ -40,7 +40,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
 
         # Fill in form with valid inputs
         Select(self.browser.find_element(By.ID, 'id_activity')
-               ).select_by_visible_text('Dodgeball (30)')
+               ).select_by_visible_text('Dodgeball - 30 min')
         Select(self.browser.find_element(By.ID, 'house')
                ).select_by_visible_text('Hawk')
         Select(self.browser.find_element(By.ID, 'id_award')

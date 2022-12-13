@@ -58,9 +58,9 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
             visibility_of(self.browser.find_element(By.ID, 'activity1')))
 
         Select(self.browser.find_element(By.ID, 'activity1')
-               ).select_by_visible_text('Dodgeball (30)')
+               ).select_by_visible_text('Dodgeball - 30 min')
         Select(self.browser.find_element(By.ID, 'activity2')
-               ).select_by_visible_text('Dodgeball (30)')
+               ).select_by_visible_text('Dodgeball - 30 min')
 
         self.browser.find_element(By.ID, 'submit').click()
 
@@ -156,14 +156,14 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
 
         # Assert that full activity is not shown
         self.assertRaises(NoSuchElementException,
-                          activity1.select_by_visible_text, 'Hidden (30)')
+                          activity1.select_by_visible_text, 'Hidden - 30 min')
         # Asser that 60 minute activity is not shown in second slot
         self.assertRaises(NoSuchElementException,
-                          activity2.select_by_visible_text, 'Volleyball (60)')
+                          activity2.select_by_visible_text, 'Volleyball - 60 min')
 
         # Assert that valid activities are still shown in slot
-        activity1.select_by_visible_text('Volleyball (60)')
-        activity2.select_by_visible_text('Hidden (30)')
+        activity1.select_by_visible_text('Volleyball - 60 min')
+        activity2.select_by_visible_text('Hidden - 30 min')
 
     def test_full_activity_shows_for_other_houses(self):
         House.objects.create(name='Snowy')
@@ -194,8 +194,8 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         # Verify that full activity is still showing for other house
         activity1 = Select(self.browser.find_element(By.ID, 'activity1'))
         activity2 = Select(self.browser.find_element(By.ID, 'activity2'))
-        activity1.select_by_visible_text('Hidden (30)')
-        activity2.select_by_visible_text('Hidden (30)')
+        activity1.select_by_visible_text('Hidden - 30 min')
+        activity2.select_by_visible_text('Hidden - 30 min')
 
     def test_activities_gt_allowed_time(self):
         self.browser.get(self.url)
@@ -219,9 +219,9 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
             visibility_of(self.browser.find_element(By.ID, 'activity1')))
 
         Select(self.browser.find_element(By.ID, 'activity1')
-               ).select_by_visible_text('Volleyball (60)')
+               ).select_by_visible_text('Volleyball - 60 min')
         Select(self.browser.find_element(By.ID, 'activity2')
-               ).select_by_visible_text('Dodgeball (30)')
+               ).select_by_visible_text('Dodgeball - 30 min')
 
         self.browser.find_element(By.ID, 'submit').click()
 

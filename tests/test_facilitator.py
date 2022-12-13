@@ -40,7 +40,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         self.browser.find_element(By.ID, 'first-name').send_keys('Test')
         self.browser.find_element(By.ID, 'last-name').send_keys('User')
         Select(self.browser.find_element(By.ID, 'activity')
-               ).select_by_visible_text('Dodgeball (30)')
+               ).select_by_visible_text('Dodgeball - 30 min')
         self.browser.find_element(By.ID, 'submit').click()
 
         # Assert that signup is successful
