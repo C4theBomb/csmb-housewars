@@ -18,7 +18,7 @@ class Activity(models.Model):
         max_length=100, blank=True, null=True, default=None)
 
     def __str__(self):
-        return f"{self.name} ({self.time})"
+        return f"{self.name} - {self.time} min"
 
     def save(self, *args, **kwargs):
         self.full_clean()
