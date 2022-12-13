@@ -36,7 +36,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.browser.close()
 
-    def test_user_form_submission(self):
+    def test_valid_form_submission(self):
         self.browser.get(self.url)
 
         # Wait until browser loads page before continuing
@@ -76,7 +76,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
 
         self.assertEquals(len(activity_confirm), 3)
 
-    def test_user_invalid_email(self):
+    def test_invalid_email(self):
         self.browser.get(self.live_server_url)
 
         # Wait until browser loads page before continuing
@@ -99,7 +99,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
             By.CSS_SELECTOR, 'div.alert.alert-danger').text
         self.assertEquals(error_text, 'Please use your school email.')
 
-    def test_user_used_email(self):
+    def test_used_email(self):
         UserEntry.objects.create(first_name='Test', last_name='User', email='test.user@slps.org', grade=9, house=self.house,
                                  activity1=self.activity30, activity2=self.activity30)
 
@@ -126,7 +126,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         self.assertEquals(
             error_text, 'A signup with this email already exists, if you want to change your signups, please email cpatino8605@slps.org.')
 
-    def test_invalid_select_elements_are_not_visible(self):
+    def test_invalid_activities_are_not_visible(self):
         UserEntry.objects.create(first_name='Test', last_name='User', email='user.exist@slps.org', grade=9, house=self.house,
                                  activity1=self.hidden, activity2=self.activity30)
 
@@ -154,7 +154,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         activity1 = Select(self.browser.find_element(By.ID, 'activity1'))
         activity2 = Select(self.browser.find_element(By.ID, 'activity2'))
 
-        # Assert that full activity is now shown
+        # Assert that full activity is not shown
         self.assertRaises(NoSuchElementException,
                           activity1.select_by_visible_text, 'Hidden (30)')
         # Asser that 60 minute activity is not shown in second slot
@@ -196,3 +196,37 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         activity2 = Select(self.browser.find_element(By.ID, 'activity2'))
         activity1.select_by_visible_text('Hidden (30)')
         activity2.select_by_visible_text('Hidden (30)')
+
+    def test_activities_gt_allowed_time(self):
+        self.browser.get(self.url)
+
+        # Wait until browser loads page before continuing
+        WebDriverWait(self.browser, timeout=5).until(
+            visibility_of(self.browser.find_element(By.ID, 'header')))
+
+        # Fill in form with valid inputs
+        self.browser.find_element(By.ID, 'first-name').send_keys('Test')
+        self.browser.find_element(By.ID, 'last-name').send_keys('User')
+        self.browser.find_element(
+            By.ID, 'email').send_keys('test.user@slps.org')
+        Select(self.browser.find_element(By.ID, 'grade')
+               ).select_by_visible_text('9th/Freshman')
+        Select(self.browser.find_element(By.ID, 'house')
+               ).select_by_visible_text('Hawk')
+        self.browser.find_element(By.ID, 'submit').click()
+
+        WebDriverWait(self.browser, timeout=5).until(
+            visibility_of(self.browser.find_element(By.ID, 'activity1')))
+
+        Select(self.browser.find_element(By.ID, 'activity1')
+               ).select_by_visible_text('Volleyball (60)')
+        Select(self.browser.find_element(By.ID, 'activity2')
+               ).select_by_visible_text('Dodgeball (30)')
+
+        self.browser.find_element(By.ID, 'submit').click()
+
+        # Verify error
+        error_text = self.browser.find_element(
+            By.CSS_SELECTOR, 'div.alert.alert-danger').text
+        self.assertEquals(
+            error_text, 'Please pick activities adding up to one hour.')
