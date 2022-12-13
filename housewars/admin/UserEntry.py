@@ -3,16 +3,10 @@ from django.db.models import F, Value
 from django.db.models.functions import Concat
 from django.http import HttpResponse, FileResponse
 
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.units import cm
-from reportlab.platypus import Table, TableStyle, SimpleDocTemplate
-from reportlab.lib.colors import black
 import csv
-import io
 
 from housewars.models import UserEntry
-from housewars.utils import unpack_values
+from housewars.utils import unpack_values, load_pdf
 
 
 class MentorListFilter(admin.SimpleListFilter):
@@ -97,30 +91,13 @@ class UserEntryAdmin(admin.ModelAdmin):
     def export_to_pdf(self, request, queryset):
         # Augment the querset with extra data
         queryset = queryset.annotate(
-            a1_room=F('activity1__room_number')).annotate(a2_room=F('activity1__room_number'))
-
-        # Initialize pdf object
-        buffer = io.BytesIO()
-        doc = SimpleDocTemplate(buffer, pagesize=letter)
-        elements = []
+            a1_room=F('activity1__room_number')).annotate(a2_room=F('activity2__room_number'))
 
         # Select headers that are to be unpacked
         headers = ['first_name', 'last_name', 'grade', 'house',
                    'activity1', 'a1_room', 'activity2', 'a2_room']
 
         # Unpack queryset data
-        data = unpack_values(queryset, headers)
+        file = load_pdf(queryset, headers)
 
-        # Load data into table and set styles
-        table = Table(data, repeatRows=1)
-        table.setStyle(TableStyle(
-            [('INNERGRID', (0, 0), (-1, -1), 0.25, black), ('BOX', (0, 0), (-1, -1), 0.25, black)]))
-
-        # Load table into PDF file
-        elements.append(table)
-
-        # Build document
-        doc.build(elements)
-        buffer.seek(0)
-
-        return FileResponse(buffer, as_attachment=True, filename='download.pdf')
+        return FileResponse(file, as_attachment=True, filename='export.pdf')

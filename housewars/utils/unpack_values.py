@@ -1,4 +1,3 @@
-import string
 from django.db.models import QuerySet
 from typing import List
 
@@ -7,8 +6,8 @@ def unpack_values(queryset: QuerySet, headers: List[str]) -> List[List]:
     """Unpacks a queryset into a 2D array
 
     :param queryset: The queryset that will be unpacked
-    :param headers: The headers of the 
-    :returns A table headers, then rows
+    :param headers: A list of the desired headers of the queryset
+    :returns A 2D array of headers, then rows
     """
 
     data = []
