@@ -11,14 +11,13 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '45.79.52.230',
     'housewars.c4thebomb101.com',
-    'collegiate-housewars.herokuapp.com',
-    'collegiate-housewars.up.railway.app'
+    'csmb-housewars.herokuapp.com',
+    '*'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://housewars.c4thebomb101.com',
-    'https://collegiate-housewars.herokuapp.com',
-    'https://collegiate-housewars.up.railway.app'
+    'https://csmb-housewars.herokuapp.com'
 ]
 
 # Database
@@ -35,4 +34,4 @@ DATABASES = {
     }
 }
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
