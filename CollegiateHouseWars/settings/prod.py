@@ -11,7 +11,8 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '45.79.52.230',
     'housewars.c4thebomb101.com',
-    'csmb-housewars.herokuapp.com'
+    'csmb-housewars.herokuapp.com',
+    '*'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
