@@ -13,7 +13,8 @@ class Activity(models.Model):
     name = models.CharField(max_length=100)
     default_quota = models.IntegerField(default=0)
     time = models.IntegerField(choices=TimeslotChoices)
-    room_number = models.IntegerField(blank=True, null=True, default=None)
+    room_number = models.CharField(
+        max_length=100, blank=True, null=True, default=None)
     password = models.CharField(
         max_length=100, blank=True, null=True, default=None)
 

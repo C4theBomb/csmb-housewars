@@ -50,14 +50,15 @@ class EntryCreateView(SessionWizardView):
         UserEntry.objects.create(**cleaned_data)
 
         activity1 = cleaned_data['activity1']
-        activity1_room = activity1.room_number
         activity2 = cleaned_data['activity2']
-        activity2_room = activity2.room_number
 
         # Build the response string.
         a1_string = f'You are in {activity1}'
+        activity1_room = activity1.room_number
+
         if (activity1_room != None):
             a1_string += f' in Room {activity1_room}'
+
         if (hasattr(activity1, 'teacher')):
             activity1_teacher = activity1.teacher
             a1_string += f' with {activity1_teacher}.'
@@ -67,6 +68,8 @@ class EntryCreateView(SessionWizardView):
         a2_string = ''
         if (activity2 != None):
             a2_string = f'You are in {activity2}'
+
+            activity2_room = activity2.room_number
             if (activity2_room != None):
                 a2_string += f' in Room {activity2_room}'
             if (hasattr(activity2, 'teacher')):
