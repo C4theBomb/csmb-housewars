@@ -82,5 +82,5 @@ As an open-source school repository we welcome all contributors willing to help 
 1. Follow the [setup instructions above](#setup) to install the required dependencies and run the local server. You will want to fork the repository and clone your own repository.
 2. Commit your new features to your new forked repository.
 3. Create a pull request that details the changes/improvements that you have made.
-4. Wait for @C4theBomb (C4 Patino), @gywn9081 (Henry Bloch), or @Slayer121 (Dylan Fritz) to open discussion or merge your pull request.
+4. Wait for @C4theBomb (C4 Patino), @gywn9081 (Henry Bloch), or @dylanfritz (Dylan Fritz) to open discussion or merge your pull request.
 5. After your pull request is merged, it will automatically be uploaded into production code and will show up on the website.
