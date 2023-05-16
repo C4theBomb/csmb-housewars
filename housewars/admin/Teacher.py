@@ -20,6 +20,8 @@ class TeacherAdmin(admin.ModelAdmin):
 
     list_display = ('first_name', 'last_name', 'house', 'grade', 'activity')
 
+    actions = ['generate_passwords', 'export_mentor_to_pdf']
+
     @admin.action(description='Export mentor to pdf')
     def export_mentor_to_pdf(self, request, queryset):
         file_list = {}
