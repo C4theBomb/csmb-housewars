@@ -8,7 +8,6 @@ import zipfile
 
 from housewars.utils import get_random_string, load_pdf
 from housewars.models import Activity, Award, Quota, UserEntry
-from housewars.utils import load_pdf
 
 
 class QuotaInline(admin.TabularInline):
@@ -98,7 +97,7 @@ class ActivityAdmin(admin.ModelAdmin):
             headers = ['first_name', 'last_name', 'grade', 'house',
                        'activity1', 'a1_room', 'activity2', 'a2_room']
 
-            file = load_pdf(user_entries, headers)
+            file = load_pdf(user_entries, headers, f"{activity.name - 1}")
 
             file_list[f"{activity.name} - 1"] = file
 
@@ -129,7 +128,7 @@ class ActivityAdmin(admin.ModelAdmin):
             headers = ['first_name', 'last_name', 'grade', 'house',
                        'activity1', 'a1_room', 'activity2', 'a2_room']
 
-            file = load_pdf(user_entries, headers)
+            file = load_pdf(user_entries, headers, f"{activity.name} - 2")
 
             file_list[f"{activity.name} - 2"] = file
 

@@ -69,7 +69,8 @@ class TeacherAdmin(admin.ModelAdmin):
             headers = ['first_name', 'last_name', 'grade', 'house',
                        'activity1', 'a1_room', 'activity2', 'a2_room']
 
-            file = load_pdf(user_entries, headers)
+            file = load_pdf(user_entries, headers,
+                            f"{teacher.last_name}, {teacher.first_name}")
 
             file_list[f"{teacher.last_name}, {teacher.first_name}"] = file
 
