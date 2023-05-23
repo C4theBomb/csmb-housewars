@@ -8,7 +8,6 @@ import zipfile
 
 from housewars.utils import get_random_string, load_pdf
 from housewars.models import Activity, Award, Quota, UserEntry
-from housewars.utils import load_pdf
 
 
 class QuotaInline(admin.TabularInline):
@@ -34,7 +33,8 @@ class ActivityAdmin(admin.ModelAdmin):
 
     inlines = [QuotaInline, AwardsInline]
 
-    actions = ['generate_passwords', 'export_a1_to_pdf', 'export_a2_to_pdf']
+    actions = ['generate_passwords', 'remove_room_number',
+               'export_a1_to_pdf', 'export_a2_to_pdf']
 
     @admin.display(description='Hawk')
     def hawk_signups(self, obj):
@@ -72,6 +72,16 @@ class ActivityAdmin(admin.ModelAdmin):
             queryset.count(),
         ) % queryset.count(), messages.SUCCESS)
 
+    @admin.action(description='Remove room number from selected activities')
+    def remove_room_number(self, request, queryset):
+        queryset.update(room_number=None)
+
+        self.message_user(request, ngettext(
+            'Removed room number for %d activity.',
+            'Removed room numbers for %d activities.',
+            queryset.count(),
+        ) % queryset.count(), messages.SUCCESS)
+
     @admin.action(description='Export activity 1 attendance to pdf')
     def export_a1_to_pdf(self, request, queryset):
         file_list = {}
@@ -87,7 +97,7 @@ class ActivityAdmin(admin.ModelAdmin):
             headers = ['first_name', 'last_name', 'grade', 'house',
                        'activity1', 'a1_room', 'activity2', 'a2_room']
 
-            file = load_pdf(user_entries, headers)
+            file = load_pdf(user_entries, headers, f"{activity.name} - 1")
 
             file_list[f"{activity.name} - 1"] = file
 
@@ -118,7 +128,7 @@ class ActivityAdmin(admin.ModelAdmin):
             headers = ['first_name', 'last_name', 'grade', 'house',
                        'activity1', 'a1_room', 'activity2', 'a2_room']
 
-            file = load_pdf(user_entries, headers)
+            file = load_pdf(user_entries, headers, f"{activity.name} - 2")
 
             file_list[f"{activity.name} - 2"] = file
 

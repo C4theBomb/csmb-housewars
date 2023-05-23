@@ -1,4 +1,4 @@
-from reportlab.platypus import Table, TableStyle, SimpleDocTemplate
+from reportlab.platypus import Table, TableStyle, SimpleDocTemplate, Paragraph
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.colors import black
 
@@ -7,7 +7,7 @@ import io
 from housewars.utils import unpack_values
 
 
-def load_pdf(data, headers):
+def load_pdf(data, headers, title=""):
     """Loads data from queryset into a pdf file
 
     :param queryset: The queryset that will be unpacked
@@ -19,6 +19,12 @@ def load_pdf(data, headers):
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
     elements = []
+
+    # Create the page title
+    title = Paragraph(title)
+
+    # Load title into PDF file
+    elements.append(title)
 
     # Unpack queryset data
     data = unpack_values(data, headers)
