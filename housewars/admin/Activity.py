@@ -34,7 +34,8 @@ class ActivityAdmin(admin.ModelAdmin):
 
     inlines = [QuotaInline, AwardsInline]
 
-    actions = ['generate_passwords', 'export_a1_to_pdf', 'export_a2_to_pdf']
+    actions = ['generate_passwords', 'remove_room_number',
+               'export_a1_to_pdf', 'export_a2_to_pdf']
 
     @admin.display(description='Hawk')
     def hawk_signups(self, obj):
@@ -69,6 +70,16 @@ class ActivityAdmin(admin.ModelAdmin):
         self.message_user(request, ngettext(
             'Generated password for %d activity.',
             'Generated passwords for %d activities.',
+            queryset.count(),
+        ) % queryset.count(), messages.SUCCESS)
+
+    @admin.action(description='Remove room number from selected activities')
+    def remove_room_number(self, request, queryset):
+        queryset.update(room_number=None)
+
+        self.message_user(request, ngettext(
+            'Removed room number for %d activity.',
+            'Removed room numbers for %d activities.',
             queryset.count(),
         ) % queryset.count(), messages.SUCCESS)
 
