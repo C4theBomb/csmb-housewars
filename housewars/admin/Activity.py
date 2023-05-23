@@ -97,7 +97,7 @@ class ActivityAdmin(admin.ModelAdmin):
             headers = ['first_name', 'last_name', 'grade', 'house',
                        'activity1', 'a1_room', 'activity2', 'a2_room']
 
-            file = load_pdf(user_entries, headers, f"{activity.name - 1}")
+            file = load_pdf(user_entries, headers, f"{activity.name} - 1")
 
             file_list[f"{activity.name} - 1"] = file
 
