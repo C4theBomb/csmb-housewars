@@ -9,7 +9,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '45.79.52.230',
     'housewars.c4thebomb101.com',
     'csmb-housewars.herokuapp.com',
 ]
