@@ -44,7 +44,7 @@ Welcome to the installation section of the guide. This will walk you through ins
 
 #### Prerequisites:
 - `git` - You can test if you have git installed using the command `git -v`, which should output a version number. If you do not have git installed you can download it [here](https://git-scm.com/downloads).
-- `python` - You can test if you have docker installed by typing `docker -v` in the terminal. The resulting output should be a version number. If you do not have docker installed, you can download it [here](https://www.docker.com/get-started/).
+- `python` - You can test if you have python installed by typing `python --version` in the terminal. The resulting output should be a version number. If you do not have python installed, you can download it [here](https://www.python.org/downloads/).
 - `pip` - You can test if you have pip installed using `python -m pip --version`. If you do not have it installed then installation instructions can be found [here](https://pip.pypa.io/en/stable/installation/).
 
 #### Instructions:
@@ -60,13 +60,13 @@ Welcome to the installation section of the guide. This will walk you through ins
 8. Run the local development server using `python manage.py runserver`.
 
 ### Relevant Commands:
-- `python manage.py test`: Runs all tests for current features of the site. If something fails, your broke something, please fix it. If you think its not your fault, it probably is. However, if your REALLY think its not your fault, create an issue and we will try our best to resolve it as soon as possible.
+- `python manage.py test`: Runs all tests for current features of the site. If something fails, you broke something, please fix it. If you think its not your fault, it probably is. However, if you REALLY think its not your fault, create an issue and we will try our best to resolve it as soon as possible.
 - `python manage.py makemigrations`: If you end up making any changes to the files in `housewars/models`, please run this command to log your changes. This will allow us to make the relevant changes to our production database and display the new features on the site.
 
 ## Hosting
 
 ### Options
-There are several options that you can use for hosting the site on a production server. My personal recommendation would either be Heroku or Linode, since it comes pre-configured with the website. Linode is very cheap at only $5 a month, while Heroku is completely free (albeit more restricted).
+There are several options that you can use for hosting the site on a production server. My personal recommendation would either be Heroku or Linode, since it comes pre-configured with the website. Linode is very cheap at only $5 a month, while Heroku is completely free (albeit more restricted) (This is unfortunately no longer true the free plan was axed).
 
 ### Environment Variables
 The server environment variables are used to secure data and keep it from entering a cloud, open-acccess environment. Because of this, you will need to define a them file yourself. These are only needed in production and are completely unnecessary if you are using a local development server. The varaibles that you will need are:
