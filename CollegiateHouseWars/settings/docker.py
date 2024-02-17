@@ -1,4 +1,4 @@
-from .dev import *
+from .local import *
 
 DATABASES = {
     'default': {

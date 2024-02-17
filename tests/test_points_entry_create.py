@@ -42,10 +42,6 @@ class PointsEntryCreatePageTest(StaticLiveServerTestCase):
         Select(self.browser.find_element(By.ID, 'id_activity')).select_by_visible_text('Dodgeball - 30 min')
         Select(self.browser.find_element(By.ID, 'house')).select_by_visible_text('Hawk')
 
-        # Wait until the Select button with '1st' shows up
-        WebDriverWait(self.browser, timeout=5).until(visibility_of(
-            self.browser.find_element(By.XPATH, "//option[text()='1st']")))
-
         time.sleep(0.25)
 
         Select(self.browser.find_element(By.ID, 'id_award')).select_by_visible_text('1st')

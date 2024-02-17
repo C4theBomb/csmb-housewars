@@ -5,10 +5,12 @@ services:
     restart: unless-stopped
     build:
       context: .
+      dockerfile: Dockerfile.dev
     ports:
       - 8000:8000
     volumes:
       - ./:/app
+
     networks:
       - housewars
     environment:
@@ -20,11 +22,12 @@ services:
       bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
   mysqldb:
     restart: unless-stopped
-    image: mysql:5.7
+    image: mysql:8.3
     ports:
       - 3306:3306
     volumes:
       - housewars-mysql:/var/lib/mysql
+
     networks:
       - housewars
     environment:
@@ -34,7 +37,10 @@ services:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       timeout: 5s
       retries: 10
+
 volumes:
   housewars-mysql:
+
+
 networks:
   housewars: {}
