@@ -12,7 +12,6 @@ class UnpackValuesTest(TestCase):
         self.test_queryset = House.objects.all()
 
     def test_valid_row_headers(self):
-        """Correctly unpacks the headers into the first index"""
         headers = [field.name for field in House._meta.fields]
 
         values = unpack_values(self.test_queryset, headers)
@@ -20,7 +19,6 @@ class UnpackValuesTest(TestCase):
             values[0], headers)
 
     def test_complete_values(self):
-        """Maintains the complete queryset and returns it"""
         headers = [field.name for field in House._meta.fields]
         values = unpack_values(self.test_queryset, headers)
         queryset = list(self.test_queryset.values_list())

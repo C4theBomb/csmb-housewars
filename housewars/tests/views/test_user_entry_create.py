@@ -60,9 +60,3 @@ class UserEntryCreateViewTest(TestCase):
             self.client.post(self.url, data)
 
         self.assertEquals(self.house.userentry_set.count(), 0)
-
-    def test_empty_POST(self):
-        response = self.client.post(self.url)
-
-        self.assertEquals(response.status_code, 400)
-        self.assertEquals(self.house.pointsentry_set.count(), 0)

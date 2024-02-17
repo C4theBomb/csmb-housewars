@@ -1,21 +1,22 @@
 from django.urls import reverse
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.expected_conditions import visibility_of
+from webdriver_manager.chrome import ChromeDriverManager
 
 from housewars.models import House, Activity, Award
 
+import time
 
-class UserEntryCreatePageTest(StaticLiveServerTestCase):
+
+class PointsEntryCreatePageTest(StaticLiveServerTestCase):
     def setUp(self):
         # Headless chrome driver test setup
-        options = Options()
+        options = ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--start-maximized')
         options.add_argument('--disable-gpu')
@@ -35,16 +36,19 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         self.browser.get(self.url)
 
         # Wait until browser loads page before continuing
-        WebDriverWait(self.browser, timeout=5).until(
-            visibility_of(self.browser.find_element(By.ID, 'header')))
+        WebDriverWait(self.browser, timeout=5).until(visibility_of(self.browser.find_element(By.ID, 'header')))
 
         # Fill in form with valid inputs
-        Select(self.browser.find_element(By.ID, 'id_activity')
-               ).select_by_visible_text('Dodgeball - 30 min')
-        Select(self.browser.find_element(By.ID, 'house')
-               ).select_by_visible_text('Hawk')
-        Select(self.browser.find_element(By.ID, 'id_award')
-               ).select_by_visible_text('1st')
+        Select(self.browser.find_element(By.ID, 'id_activity')).select_by_visible_text('Dodgeball - 30 min')
+        Select(self.browser.find_element(By.ID, 'house')).select_by_visible_text('Hawk')
+
+        # Wait until the Select button with '1st' shows up
+        WebDriverWait(self.browser, timeout=5).until(visibility_of(
+            self.browser.find_element(By.XPATH, "//option[text()='1st']")))
+
+        time.sleep(0.25)
+
+        Select(self.browser.find_element(By.ID, 'id_award')).select_by_visible_text('1st')
         self.browser.find_element(By.ID, 'submit').click()
 
         # Verify that success message is shown

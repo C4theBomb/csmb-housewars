@@ -1,8 +1,7 @@
 from django.urls import reverse
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.select import Select
@@ -12,10 +11,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 from housewars.models import Activity
 
 
-class UserEntryCreatePageTest(StaticLiveServerTestCase):
+class FacilitatorEntry(StaticLiveServerTestCase):
     def setUp(self):
         # Headless chrome driver test setup
-        options = Options()
+        options = ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--start-maximized')
         options.add_argument('--disable-gpu')

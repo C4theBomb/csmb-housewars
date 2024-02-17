@@ -14,7 +14,6 @@ class UnpackValuesTest(TestCase):
         self.test_queryset = House.objects.all()
 
     def test_matching_object_instance(self):
-        """Correctly unpacks the headers into the first index"""
         headers = [field.name for field in House._meta.fields]
 
         self.assertIsInstance(

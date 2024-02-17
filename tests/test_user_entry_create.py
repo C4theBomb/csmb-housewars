@@ -1,8 +1,7 @@
 from django.urls import reverse
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
@@ -16,12 +15,12 @@ from housewars.models import House, Activity, UserEntry
 class UserEntryCreatePageTest(StaticLiveServerTestCase):
     def setUp(self):
         # Headless chrome driver test setup
-        options = Options()
+        options = ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--start-maximized')
         options.add_argument('--disable-gpu')
         self.browser = Chrome(
-            ChromeDriverManager().install(), chrome_options=options)
+            ChromeDriverManager().install(), options=options)
         self.url = self.live_server_url + reverse('housewars:signup')
 
         # Initial data setup
