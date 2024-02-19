@@ -11,7 +11,7 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://csmb-housewars.c4patino.com/'
+    'https://csmb-housewars.c4patino.com',
 ]
 
 DATABASES = {
