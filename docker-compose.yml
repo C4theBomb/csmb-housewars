@@ -10,7 +10,6 @@ services:
       - 8000:8000
     volumes:
       - ./:/app
-
     networks:
       - housewars
     environment:
@@ -27,7 +26,6 @@ services:
       - 3306:3306
     volumes:
       - housewars-mysql:/var/lib/mysql
-
     networks:
       - housewars
     environment:

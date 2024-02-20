@@ -8,10 +8,11 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'csmb-housewars.c4patino.com',
+    '172.234.16.137',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://csmb-housewars.c4patino.com',
+    'http://172.234.16.137/',
 ]
 
 DATABASES = {
