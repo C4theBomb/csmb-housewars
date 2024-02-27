@@ -123,7 +123,7 @@ class UserEntryCreatePageTest(StaticLiveServerTestCase):
         error_text = self.browser.find_element(
             By.CSS_SELECTOR, 'div.alert.alert-danger').text
         self.assertEquals(
-            error_text, 'A signup with this email already exists, if you want to change your signups, please email cpatino8605@slps.org.')
+            error_text, 'A signup with this email already exists, if you want to change your signups, please email ipatino3341@slps.org.')
 
     def test_invalid_activities_are_not_visible(self):
         UserEntry.objects.create(first_name='Test', last_name='User', email='user.exist@slps.org', grade=9, house=self.house,

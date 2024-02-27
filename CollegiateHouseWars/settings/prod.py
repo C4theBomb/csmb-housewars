@@ -8,11 +8,11 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'csmb-housewars.c4patino.com',
-    '172.234.16.137',
+    'collegiate-housewars-02810c3f29dc.herokuapp.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://172.234.16.137/',
+    'http://collegiate-housewars-02810c3f29dc.herokuapp.com/'
 ]
 
 DATABASES = {

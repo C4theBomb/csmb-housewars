@@ -40,6 +40,6 @@ class UserEntryForm(Form):
         # Verify that the email is unique
         if UserEntry.objects.filter(email=email).exists():
             raise ValidationError(
-                "A signup with this email already exists, if you want to change your signups, please email cpatino8605@slps.org.")
+                "A signup with this email already exists, if you want to change your signups, please email ipatino3341@slps.org.")
 
         return email
